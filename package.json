@@ -10,10 +10,9 @@
   "scripts": {
     "install:all": "npm install && npm install --workspace=client && npm install --workspace=server",
     "dev": "concurrently \"npm run dev --workspace=client\" \"npm run start --workspace=server\"",
-    "build:client": "npm run build --workspace=client",
-    "start:server": "npm run start --workspace=server",
-    "seed:server": "npm run seed --workspace=server",
-    "start": "npm run start:server"
+    "build": "npm run build --workspace=client",
+    "start": "NODE_ENV=production node server/index.js",
+    "seed:server": "npm run seed --workspace=server"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

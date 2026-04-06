@@ -1,6 +1,7 @@
 const express  = require('express');
 const mongoose = require('mongoose');
 const cors     = require('cors');
+const path     = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -25,7 +26,20 @@ app.use('/api/customers', require('./routes/customers'));
 app.use('/api/bills',     require('./routes/bills'));
 
 // Health check
-app.get('/', (req, res) => res.json({ status: 'Billing API running' }));
+app.get('/api/health', (req, res) => res.json({ status: 'Billing API running' }));
+
+// Serve Static Files in Production
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(__dirname, '../client/dist');
+  app.use(express.static(distPath));
+
+  app.get(/^\/(.*)/, (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+} else {
+  // Local Dev Landing Page
+  app.get('/', (req, res) => res.send('<h1>Billing API</h1><p>Visit the client dev server to view the UI.</p>'));
+}
 
 // Connect & Start
 mongoose
