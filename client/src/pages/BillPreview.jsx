@@ -79,20 +79,21 @@ export default function BillPreview() {
   return (
     <div>
       {/* Action Bar */}
-      <div style={{ display:'flex', gap:12, marginBottom:24, alignItems:'center', flexWrap:'wrap' }}>
-        <button className="btn btn-ghost" onClick={() => navigate('/bills')}>← Back to Bills</button>
-        <button className="btn btn-primary" onClick={() => navigate('/create')}>➕ New Bill</button>
-        <button className="btn btn-success" onClick={downloadPDF}>
+      <div className="grid-mobile-stack" style={{ display:'flex', gap:10, marginBottom:24, alignItems:'center', flexWrap:'wrap' }}>
+        <button className="btn btn-ghost" style={{ flexGrow: window.innerWidth < 640 ? 1 : 0, justifyContent: 'center' }} onClick={() => navigate('/bills')}>← Back</button>
+        <button className="btn btn-primary" style={{ flexGrow: window.innerWidth < 640 ? 1 : 0, justifyContent: 'center' }} onClick={() => navigate('/create')}>➕ New Bill</button>
+        <button className="btn btn-success" style={{ width: window.innerWidth < 640 ? '100%' : 'auto', justifyContent: 'center' }} onClick={downloadPDF}>
           📥 Download PDF
         </button>
-        <div style={{ marginLeft:'auto', color:'var(--text-dim)', fontSize:12 }}>
-          Bill #{bill.billNo || '—'} · {bill.to} · ₹{bill.totalAfterTax}
+        <div className="show-desktop" style={{ marginLeft:'auto', color:'var(--text-dim)', fontSize:12, fontWeight:500 }}>
+          Bill #{bill.billNo || '—'} · {bill.to}
         </div>
       </div>
 
-      {/* Invoice preview — scrollable on small screens */}
-      <div style={{ overflowX:'auto', background:'#e5e5e5', padding:20, borderRadius:12 }}>
-        <InvoiceTemplate data={bill} ref={templateRef} />
+      <div className="card" style={{ overflowX:'auto', background:'var(--bg-active)', padding: window.innerWidth < 640 ? 10 : 20, borderRadius:12 }}>
+        <div style={{ minWidth: 800 }}>
+          <InvoiceTemplate data={bill} ref={templateRef} />
+        </div>
       </div>
     </div>
   )

@@ -56,15 +56,16 @@ export default function Customers() {
 
   return (
     <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+      <div className="grid-mobile-stack" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <h2 style={{ fontSize: 20, fontWeight: 700 }}>👥 Manage Customers</h2>
-          <p style={{ color: 'var(--text-dim)', fontSize: 13, marginTop: 4 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700 }}>👥 Manage Customers</h2>
+          <p className="hide-mobile" style={{ color: 'var(--text-dim)', fontSize: 12, marginTop: 4 }}>
             View and edit customer details. These are auto-saved during billing.
           </p>
         </div>
         <button 
           className="btn btn-primary" 
+          style={{ width: window.innerWidth < 640 ? '100%' : 'auto', justifyContent: 'center' }}
           onClick={() => {
             setSearch('')
             setEditingId('NEW')
@@ -90,11 +91,11 @@ export default function Customers() {
           <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-dim)' }}>Loading...</div>
         ) : editingId === 'NEW' ? (
           <div style={{ padding: 20, background: 'var(--bg-active)' }}>
-            <h3 style={{ marginBottom: 16 }}>New Customer</h3>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap: 16 }}>
+            <h3 style={{ marginBottom: 16, fontSize: 14 }}>New Customer</h3>
+            <div className="grid-2" style={{ gap: 16 }}>
               <div><label className="form-label">Name *</label><input className="form-input" value={editForm.name} onChange={e=>setEditForm({...editForm, name:e.target.value})} /></div>
               <div><label className="form-label">GST No</label><input className="form-input" value={editForm.gst} onChange={e=>setEditForm({...editForm, gst:e.target.value})} /></div>
-              <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Address</label><input className="form-input" value={editForm.address} onChange={e=>setEditForm({...editForm, address:e.target.value})} /></div>
+              <div className="full-width-mobile" style={{ gridColumn: window.innerWidth > 640 ? '1/3' : 'auto' }}><label className="form-label">Address</label><input className="form-input" value={editForm.address} onChange={e=>setEditForm({...editForm, address:e.target.value})} /></div>
               <div><label className="form-label">City</label><input className="form-input" value={editForm.city} onChange={e=>setEditForm({...editForm, city:e.target.value})} /></div>
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
@@ -108,49 +109,51 @@ export default function Customers() {
             <p>No customers found.</p>
           </div>
         ) : (
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>GST No</th>
-                <th style={{ width: 100 }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {customers.map(c => (
-                <tr key={c._id}>
-                  {editingId === c._id ? (
-                    <td colSpan={5} style={{ padding: 0 }}>
-                      <div style={{ padding: 20, background: 'var(--bg-active)' }}>
-                        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap: 16 }}>
-                          <div><label className="form-label">Name *</label><input className="form-input" value={editForm.name} onChange={e=>setEditForm({...editForm, name:e.target.value})} /></div>
-                          <div><label className="form-label">GST No</label><input className="form-input" value={editForm.gst} onChange={e=>setEditForm({...editForm, gst:e.target.value})} /></div>
-                          <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Address</label><input className="form-input" value={editForm.address} onChange={e=>setEditForm({...editForm, address:e.target.value})} /></div>
-                          <div><label className="form-label">City</label><input className="form-input" value={editForm.city} onChange={e=>setEditForm({...editForm, city:e.target.value})} /></div>
-                        </div>
-                        <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-                          <button className="btn btn-success btn-sm" onClick={saveEdit}>Save</button>
-                          <button className="btn btn-ghost btn-sm" onClick={cancelEdit}>Cancel</button>
-                        </div>
-                      </div>
-                    </td>
-                  ) : (
-                    <>
-                      <td style={{ fontWeight: 600 }}>{c.name}</td>
-                      <td>{c.address || '—'}</td>
-                      <td>{c.city || '—'}</td>
-                      <td style={{ color: 'var(--accent)' }}>{c.gst || '—'}</td>
-                      <td>
-                        <button className="btn btn-ghost btn-sm" onClick={() => startEdit(c)}>Edit</button>
-                      </td>
-                    </>
-                  )}
+          <div className="responsive-table">
+            <table className="data-table mobile-cards">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th className="hide-mobile">City</th>
+                  <th>GST No</th>
+                  <th style={{ width: 100 }}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {customers.map(c => (
+                  <tr key={c._id}>
+                    {editingId === c._id ? (
+                      <td colSpan={5} style={{ padding: 0 }}>
+                        <div style={{ padding: 20, background: 'var(--bg-active)' }}>
+                          <div className="grid-2" style={{ gap: 16 }}>
+                            <div><label className="form-label">Name *</label><input className="form-input" value={editForm.name} onChange={e=>setEditForm({...editForm, name:e.target.value})} /></div>
+                            <div><label className="form-label">GST No</label><input className="form-input" value={editForm.gst} onChange={e=>setEditForm({...editForm, gst:e.target.value})} /></div>
+                            <div className="full-width-mobile" style={{ gridColumn: window.innerWidth > 640 ? '1/3' : 'auto' }}><label className="form-label">Address</label><input className="form-input" value={editForm.address} onChange={e=>setEditForm({...editForm, address:e.target.value})} /></div>
+                            <div><label className="form-label">City</label><input className="form-input" value={editForm.city} onChange={e=>setEditForm({...editForm, city:e.target.value})} /></div>
+                          </div>
+                          <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
+                            <button className="btn btn-success btn-sm" onClick={saveEdit}>Save</button>
+                            <button className="btn btn-ghost btn-sm" onClick={cancelEdit}>Cancel</button>
+                          </div>
+                        </div>
+                      </td>
+                    ) : (
+                      <>
+                        <td data-label="Name" style={{ fontWeight: 600 }}>{c.name}</td>
+                        <td data-label="Address">{c.address || '—'}</td>
+                        <td data-label="City" className="hide-mobile">{c.city || '—'}</td>
+                        <td data-label="GST No" style={{ color: 'var(--accent)' }}>{c.gst || '—'}</td>
+                        <td data-label="Action" style={{ textAlign: 'right' }}>
+                          <button className="btn btn-ghost btn-sm" onClick={() => startEdit(c)}>Edit</button>
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>

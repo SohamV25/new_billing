@@ -50,20 +50,25 @@ export default function PreviousBills() {
 
   return (
     <div>
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20, flexWrap:'wrap', gap:12 }}>
+      <div className="grid-mobile-stack" style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:24, flexWrap:'wrap', gap:16 }}>
         <div>
-          <h2 style={{ fontSize:20, fontWeight:700 }}>📋 Previous Bills</h2>
-          <p style={{ color:'var(--text-dim)', fontSize:12, marginTop:3 }}>{bills.length} bill{bills.length!==1?'s':''} found</p>
+          <h2 style={{ fontSize:18, fontWeight:700 }}>📋 Previous Bills</h2>
+          <p className="hide-mobile" style={{ color:'var(--text-dim)', fontSize:12, marginTop:3 }}>{bills.length} bill{bills.length!==1?'s':''} found</p>
         </div>
-        <button className="btn btn-primary" onClick={() => navigate('/create')}>➕ New Bill</button>
+        <button className="btn btn-primary" style={{ width: window.innerWidth < 640 ? '100%' : 'auto', justifyContent:'center' }} onClick={() => navigate('/create')}>➕ New Bill</button>
       </div>
 
       {/* Filters */}
-      <div className="card" style={{ marginBottom:20, padding:14 }}>
-        <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr auto', gap:12, alignItems:'end' }}>
+      <div className="card" style={{ marginBottom:20, padding: 16 }}>
+        <div className="grid-responsive-filters" style={{ display:'grid', gridTemplateColumns:'1fr', gap:16, alignItems:'end' }}>
+          <style>{`
+            @media (min-width: 768px) {
+              .grid-responsive-filters { grid-template-columns: 2fr 1fr 1fr auto !important; }
+            }
+          `}</style>
           <div>
-            <label className="form-label">Search by Buyer Name or Bill No.</label>
-            <input className="form-input" placeholder="e.g. Panchasheel or 123" value={search} onChange={e=>setSearch(e.target.value)} />
+            <label className="form-label">Search Buyer or Bill No.</label>
+            <input className="form-input" placeholder="e.g. Panchasheel" value={search} onChange={e=>setSearch(e.target.value)} />
           </div>
           <div>
             <label className="form-label">Date From</label>
@@ -73,14 +78,14 @@ export default function PreviousBills() {
             <label className="form-label">Date To</label>
             <input className="form-input" type="date" value={dateTo} onChange={e=>setDateTo(e.target.value)} />
           </div>
-          <button className="btn btn-ghost" onClick={()=>{ setSearch(''); setDateFrom(''); setDateTo('') }}>
+          <button className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }} onClick={()=>{ setSearch(''); setDateFrom(''); setDateTo('') }}>
             Clear
           </button>
         </div>
       </div>
 
       {/* Table */}
-      <div className="card" style={{ padding:0, overflowX:'auto' }}>
+      <div className="responsive-table">
         {loading ? (
           <div style={{ textAlign:'center', padding:60, color:'var(--text-dim)' }}>Loading...</div>
         ) : bills.length === 0 ? (
@@ -89,36 +94,34 @@ export default function PreviousBills() {
             <p>No bills found. Try adjusting your filters.</p>
           </div>
         ) : (
-          <table className="data-table">
+          <table className="data-table mobile-cards">
             <thead>
               <tr>
-                <th>#</th>
                 <th>Bill No.</th>
                 <th>Buyer</th>
                 <th>Bill Date</th>
-                <th>Created</th>
-                <th>Before Tax</th>
-                <th>Total GST</th>
+                <th className="hide-mobile">Created</th>
+                <th className="hide-mobile">Before Tax</th>
+                <th className="hide-mobile">Total GST</th>
                 <th style={{ color:'var(--accent)' }}>Total</th>
-                <th>Actions</th>
+                <th style={{ textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {bills.map((b, i) => {
+              {bills.map((b) => {
                 const gst = (parseFloat(b.totalCGST)||0) + (parseFloat(b.totalSGST)||0) + (parseFloat(b.totalIGST)||0)
                 return (
                   <tr key={b._id}>
-                    <td style={{ color:'var(--text-dim)' }}>{i+1}</td>
-                    <td><span className="badge badge-blue">{b.billNo || '—'}</span></td>
-                    <td style={{ fontWeight:600, maxWidth:200 }}>{b.to}</td>
-                    <td style={{ color:'var(--text-muted)' }}>{b.billDate || '—'}</td>
-                    <td style={{ color:'var(--text-dim)', fontSize:12 }}>{fmtDate(b.createdAt)}</td>
-                    <td>₹ {parseFloat(b.totalBeforeTax).toFixed(2)}</td>
-                    <td style={{ color:'var(--warning)' }}>₹ {gst.toFixed(2)}</td>
-                    <td style={{ color:'var(--accent)', fontWeight:700, fontSize:15 }}>₹ {parseFloat(b.totalAfterTax).toFixed(2)}</td>
-                    <td>
-                      <div style={{ display:'flex', gap:8 }}>
-                        <button className="btn btn-ghost btn-sm" onClick={()=>navigate(`/bills/${b._id}`)}>👁 View</button>
+                    <td data-label="Bill No."><span className="badge badge-blue">{b.billNo || '—'}</span></td>
+                    <td data-label="Buyer" style={{ fontWeight:600 }}>{b.to}</td>
+                    <td data-label="Bill Date" style={{ color:'var(--text-muted)' }}>{b.billDate || '—'}</td>
+                    <td data-label="Created" className="hide-mobile" style={{ color:'var(--text-dim)', fontSize:12 }}>{fmtDate(b.createdAt)}</td>
+                    <td data-label="Base" className="hide-mobile">₹ {parseFloat(b.totalBeforeTax).toFixed(2)}</td>
+                    <td data-label="GST" className="hide-mobile" style={{ color:'var(--warning)' }}>₹ {gst.toFixed(2)}</td>
+                    <td data-label="Total" style={{ color:'var(--accent)', fontWeight:700, fontSize:15 }}>₹ {parseFloat(b.totalAfterTax).toFixed(2)}</td>
+                    <td data-label="Action" style={{ textAlign: 'right' }}>
+                      <div style={{ display:'flex', gap:8, justifyContent: 'flex-end' }}>
+                        <button className="btn btn-ghost btn-sm" onClick={()=>navigate(`/bills/${b._id}`)}>👁</button>
                         <button className="btn btn-danger btn-sm" onClick={()=>handleDeleteClick(b._id)}>🗑</button>
                       </div>
                     </td>

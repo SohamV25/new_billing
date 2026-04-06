@@ -125,12 +125,12 @@ export default function CreateBill() {
   return (
     <div style={{ maxWidth:1400 }}>
       {/* Header */}
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:24 }}>
+      <div className="grid-mobile-stack" style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:24, flexWrap:'wrap', gap:16 }}>
         <div>
-          <h2 style={{ fontSize:20, fontWeight:700 }}>🧾 Create Tax Invoice</h2>
-          <p style={{ color:'var(--text-dim)', fontSize:12, marginTop:3 }}>Fill in details and click Generate to save &amp; preview</p>
+          <h2 style={{ fontSize:18, fontWeight:700 }}>🧾 Create Tax Invoice</h2>
+          <p className="hide-mobile" style={{ color:'var(--text-dim)', fontSize:12, marginTop:3 }}>Fill details and click Generate to save &amp; preview</p>
         </div>
-        <button className="btn btn-success" onClick={handleGenerate} disabled={saving}>
+        <button className="btn btn-success" style={{ width: window.innerWidth < 640 ? '100%' : 'auto', justifyContent:'center' }} onClick={handleGenerate} disabled={saving}>
           {saving ? '⏳ Saving...' : '✅ Generate Bill'}
         </button>
       </div>
@@ -140,7 +140,7 @@ export default function CreateBill() {
         {/* ── Buyer Info ── */}
         <div className="card">
           <h3 style={{ fontSize:13, fontWeight:700, color:'var(--accent)', marginBottom:14, textTransform:'uppercase', letterSpacing:0.5 }}>Buyer Information</h3>
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1.6fr 1fr', gap:14 }}>
+          <div className="grid-3" style={{ gap:14 }}>
             <div>
               <label className="form-label">To (Buyer Name) *</label>
               <CustomerAutocomplete
@@ -163,20 +163,27 @@ export default function CreateBill() {
         {/* ── Bill Meta ── */}
         <div className="card" style={{ background:'var(--bg-body)' }}>
           <h3 style={{ fontSize:13, fontWeight:700, color:'var(--text-dim)', marginBottom:14, textTransform:'uppercase', letterSpacing:0.5 }}>Invoice Details</h3>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:12 }}>
-            {[
-              ['billNo','Bill No.',''],
-              ['billDate','Bill Date','DD/MM/YYYY'],
-              ['orderNo','Order No.',''],
-              ['orderDate','Order Date','DD/MM/YYYY'],
-              ['dcNo','D.C. No.',''],
-              ['dcDate','D.C. Date','DD/MM/YYYY'],
-            ].map(([name,label,ph]) => (
-              <div key={name}>
-                <label className="form-label">{label}</label>
-                <input className="form-input" name={name} value={form[name]} onChange={handleForm} placeholder={ph} style={{ fontSize:12, padding:'7px 10px' }} />
-              </div>
-            ))}
+          <div className="grid-4" style={{ gap:12 }}>
+            <style>{`
+              @media (min-width: 1200px) {
+                .invoice-details-grid { grid-template-columns: repeat(6, 1fr) !important; }
+              }
+            `}</style>
+            <div className="grid-4 invoice-details-grid" style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:12, width:'100%', gridColumn:'1/-1' }}>
+              {[
+                ['billNo','Bill No.',''],
+                ['billDate','Bill Date','DD/MM/YYYY'],
+                ['orderNo','Order No.',''],
+                ['orderDate','Order Date','DD/MM/YYYY'],
+                ['dcNo','D.C. No.',''],
+                ['dcDate','D.C. Date','DD/MM/YYYY'],
+              ].map(([name,label,ph]) => (
+                <div key={name}>
+                  <label className="form-label">{label}</label>
+                  <input className="form-input" name={name} value={form[name]} onChange={handleForm} placeholder={ph} style={{ fontSize:12, padding:'7px 10px' }} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -186,8 +193,8 @@ export default function CreateBill() {
             <h3 style={{ fontSize:13, fontWeight:700, color:'var(--accent)', textTransform:'uppercase', letterSpacing:0.5 }}>Products</h3>
             <button className="btn btn-ghost btn-sm" onClick={addRow}>＋ Add Row</button>
           </div>
-          <div style={{ overflowX:'auto' }}>
-            <table className="product-table" style={{ minWidth:900 }}>
+          <div className="responsive-table">
+            <table className="product-table mobile-cards" style={{ minWidth: window.innerWidth > 768 ? 900 : '100%' }}>
               <thead>
                 <tr>
                   <th rowSpan="2" style={{ minWidth:180 }}>Description</th>
@@ -208,19 +215,22 @@ export default function CreateBill() {
               <tbody>
                 {rows.map((r,i) => (
                   <tr key={i}>
-                    <td>
+                    <td data-label="Description">
                       <input list="prodList" className="form-input" style={{ fontSize:12, padding:'5px 8px' }}
                         value={r.desc} onChange={e=>handleRow(i,'desc',e.target.value)} placeholder="Product name" />
                     </td>
-                    {['hsn','qty','rate','cgst','cgstAmt','sgst','sgstAmt','igst','igstAmt'].map(f => (
-                      <td key={f}>
+                    {[
+                      ['hsn','HSN'],['qty','Qty'],['rate','Rate'],['cgst','CGST %'],['cgstAmt','CGST Amt'],
+                      ['sgst','SGST %'],['sgstAmt','SGST Amt'],['igst','IGST %'],['igstAmt','IGST Amt']
+                    ].map(([f, label]) => (
+                      <td key={f} data-label={label}>
                         <input className="form-input" style={{ fontSize:12, padding:'5px 8px', textAlign:'right' }}
                           value={r[f]} readOnly={f.endsWith('Amt')}
                           onChange={e=>handleRow(i,f,e.target.value)} />
                       </td>
                     ))}
-                    <td>
-                      <button onClick={()=>removeRow(i)} style={{ background:'none', border:'none', color:'var(--danger)', fontSize:18, cursor:'pointer' }}>✕</button>
+                    <td data-label="Action">
+                      <button onClick={()=>removeRow(i)} style={{ background:'none', border:'none', color:'var(--danger)', fontSize:18, cursor:'pointer', width: '100%', textAlign: 'center' }}>✕</button>
                     </td>
                   </tr>
                 ))}
@@ -231,15 +241,15 @@ export default function CreateBill() {
         </div>
 
         {/* ── Extra Charges + Summary ── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:20, alignItems:'start' }}>
+        <div className="grid-2" style={{ gap:20, alignItems:'start' }}>
 
           <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
             <div className="card">
               <h3 style={{ fontSize:12, fontWeight:700, color:'var(--text-dim)', marginBottom:12, textTransform:'uppercase' }}>Extra Charges</h3>
-              <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:10 }}>
+              <div className="grid-2" style={{ gap:10 }}>
                 <div>
                   <label className="form-label">Reason</label>
-                  <input className="form-input" name="extraReason" value={form.extraReason} onChange={handleForm} placeholder="e.g. Courier" />
+                  <input className="form-input" name="extraReason" value={form.extraReason} onChange={handleForm} placeholder="Courier" />
                 </div>
                 <div>
                   <label className="form-label">Amount</label>
@@ -250,21 +260,21 @@ export default function CreateBill() {
 
             <div>
               <label className="form-label">Amount in Words</label>
-              <textarea className="form-input" rows={3} readOnly value={summary.amountInWords} style={{ resize:'none' }} />
+              <textarea className="form-input" rows={2} readOnly value={summary.amountInWords} style={{ resize:'none', fontSize: 12 }} />
             </div>
           </div>
 
           <div className="summary-box">
             {[
-              ['Total Before Tax', summary.totalBeforeTax, false],
-              ['Total CGST',       summary.totalCGST, false],
-              ['Total SGST',       summary.totalSGST, false],
-              ['Total IGST',       summary.totalIGST, false],
-              ['Total After Tax',  summary.totalAfterTax, true],
+              ['Before Tax', summary.totalBeforeTax, false],
+              ['Total CGST', summary.totalCGST, false],
+              ['Total SGST', summary.totalSGST, false],
+              ['Total IGST', summary.totalIGST, false],
+              ['Total Payable', summary.totalAfterTax, true],
             ].map(([label, val, bold]) => (
               <div className="summary-row" key={label}>
-                <span className="summary-label">{label}</span>
-                <span className="summary-val" style={bold?{color:'var(--accent)',fontSize:18,fontWeight:800}:{}}>
+                <span className="summary-label" style={{ fontSize: 12 }}>{label}</span>
+                <span className="summary-val" style={bold?{color:'var(--accent)',fontSize:18,fontWeight:800}:{fontSize: 14}}>
                   ₹ {val}
                 </span>
               </div>

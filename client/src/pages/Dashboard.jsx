@@ -111,62 +111,80 @@ export default function Dashboard() {
       <div className="grid-4">
         {statCards.map(s => (
           <div className="stat-card" key={s.label} style={{ '--accent':s.color }}>
-            <div style={{ fontSize:28 }}>{s.icon}</div>
-            <span className="stat-label">{s.label}</span>
-            <span className="stat-value" style={{ color:s.color }}>{s.value}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ fontSize: 24 }}>{s.icon}</div>
+              <span className="stat-label">{s.label}</span>
+            </div>
+            <span className="stat-value" style={{ color: s.color, fontSize: '22px', marginTop: '4px' }}>{s.value}</span>
             <span className="stat-sub">{s.sub}</span>
           </div>
         ))}
       </div>
 
       {/* Chart + Quick Actions */}
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 280px', gap:20, alignItems:'start' }}>
-
-        {/* Monthly Revenue Chart */}
-        <div className="card">
-          <h3 style={{ fontSize:14, fontWeight:700, marginBottom:20, color:'var(--text-main)' }}>📈 Monthly Revenue &amp; Bill Count</h3>
-          {chartData.length === 0 ? (
-            <div className="empty-state" style={{ padding:40 }}>
-              <div className="empty-icon">📊</div>
-              <p>No data yet. Generate your first bill!</p>
-            </div>
-          ) : (
-            <ResponsiveContainer width="100%" height={280}>
-              <BarChart data={chartData} margin={{ top:5, right:20, left:10, bottom:5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                <XAxis dataKey="name" tick={{ fill:'var(--text-dim)', fontSize:11 }} axisLine={false} tickLine={false} />
-                <YAxis yAxisId="left" tick={{ fill:'var(--text-dim)', fontSize:11 }} axisLine={false} tickLine={false}
-                  tickFormatter={v=>`₹${(v/1000).toFixed(0)}k`} />
-                <YAxis yAxisId="right" orientation="right" tick={{ fill:'var(--text-dim)', fontSize:11 }} axisLine={false} tickLine={false} />
-                <Tooltip content={<CustomTooltip />} cursor={{ fill:'rgba(255,255,255,0.04)' }} />
-                <Legend wrapperStyle={{ fontSize:12, color:'var(--text-muted)' }} />
-                <Bar yAxisId="left"  dataKey="revenue" name="Revenue (₹)" fill="#3b82f6" radius={[4,4,0,0]} />
-                <Bar yAxisId="right" dataKey="bills"   name="Bills"       fill="#34d399" radius={[4,4,0,0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          )}
-        </div>
-
-        {/* Quick Actions */}
-        <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+      <div className="grid-mobile-stack" style={{ display:'grid', gridTemplateColumns:'minmax(0, 1fr)', gap:20 }}>
+        <style>{`
+          @media (min-width: 1024px) {
+            .dashboard-main-grid { grid-template-columns: 1fr 300px !important; }
+          }
+        `}</style>
+        
+        <div className="dashboard-main-grid" style={{ display:'grid', gridTemplateColumns:'1fr', gap:20 }}>
+          {/* Monthly Revenue Chart */}
           <div className="card">
-            <h3 style={{ fontSize:13, fontWeight:700, marginBottom:12, color:'var(--text-muted)' }}>Quick Actions</h3>
-            <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-              <button className="btn btn-primary" style={{ width:'100%', justifyContent:'center' }} onClick={()=>navigate('/create')}>
-                🧾 Create New Bill
-              </button>
-              <button className="btn btn-ghost" style={{ width:'100%', justifyContent:'center' }} onClick={()=>navigate('/bills')}>
-                📋 View All Bills
-              </button>
-            </div>
+            <h3 style={{ fontSize:14, fontWeight:700, marginBottom:20, color:'var(--text-main)' }}>📈 Monthly Revenue &amp; Bill Count</h3>
+            {chartData.length === 0 ? (
+              <div className="empty-state" style={{ padding:40 }}>
+                <div className="empty-icon">📊</div>
+                <p>No data yet. Generate your first bill!</p>
+              </div>
+            ) : (
+              <div style={{ width: '100%', height: 280 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData} margin={{ top:5, right:0, left:-20, bottom:5 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                    <XAxis dataKey="name" tick={{ fill:'var(--text-dim)', fontSize:10 }} axisLine={false} tickLine={false} />
+                    <YAxis yAxisId="left" tick={{ fill:'var(--text-dim)', fontSize:10 }} axisLine={false} tickLine={false}
+                      tickFormatter={v=>`${(v/1000).toFixed(0)}k`} />
+                    <YAxis yAxisId="right" orientation="right" hide={window.innerWidth < 640} tick={{ fill:'var(--text-dim)', fontSize:10 }} axisLine={false} tickLine={false} />
+                    <Tooltip content={<CustomTooltip />} cursor={{ fill:'rgba(255,255,255,0.04)' }} />
+                    <Legend wrapperStyle={{ fontSize:11, paddingTop:10 }} />
+                    <Bar yAxisId="left"  dataKey="revenue" name="Revenue" fill="#3b82f6" radius={[4,4,0,0]} />
+                    <Bar yAxisId="right" dataKey="bills"   name="Bills" fill="#34d399" radius={[4,4,0,0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </div>
 
-          <div className="card" style={{ background:'var(--bg-body)' }}>
-            <h3 style={{ fontSize:12, fontWeight:700, marginBottom:10, color:'var(--text-dim)', textTransform:'uppercase' }}>Company Info</h3>
-            <div style={{ fontSize:11, color:'var(--text-muted)', lineHeight:1.8 }}>
-              <div><b style={{ color:'var(--text-main)' }}>Soham Research & Marketing Pvt. Ltd.</b></div>
-              <div>Chhatrapati Sambhajinagar, Maharashtra - 431003</div>
-              <div style={{ marginTop:4, color:'var(--accent)', fontSize:10 }}>GST: 27AANCS2167G1Z3</div>
+          {/* Quick Actions */}
+          <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
+            <div className="card">
+              <h3 style={{ fontSize:13, fontWeight:700, marginBottom:12, color:'var(--text-muted)' }}>Quick Actions</h3>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+                <style>{`
+                  @media (min-width: 1024px) {
+                    .quick-actions-box { grid-template-columns: 1fr !important; }
+                  }
+                `}</style>
+                <div className="quick-actions-box" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, width:'100%' }}>
+                  <button className="btn btn-primary" style={{ justifyContent:'center' }} onClick={()=>navigate('/create')}>
+                    🧾 Create Bill
+                  </button>
+                  <button className="btn btn-ghost" style={{ justifyContent:'center' }} onClick={()=>navigate('/bills')}>
+                    📋 View Bills
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="card" style={{ background:'var(--bg-body)' }}>
+              <h3 style={{ fontSize:12, fontWeight:700, marginBottom:10, color:'var(--text-dim)', textTransform:'uppercase' }}>Company Info</h3>
+              <div style={{ fontSize:11, color:'var(--text-muted)', lineHeight:1.6 }}>
+                <div><b style={{ color:'var(--text-main)' }}>Soham Research & Marketing</b></div>
+                <div>Chhatrapati Sambhajinagar, MH</div>
+                <div style={{ marginTop:4, color:'var(--accent)', fontSize:10 }}>GST: 27AANCS2167G1Z3</div>
+              </div>
             </div>
           </div>
         </div>
@@ -187,8 +205,8 @@ export default function Dashboard() {
           </div>
         </div>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 1 }}>
-          <div style={{ borderRight: '1px solid var(--border)' }}>
+        <div className="grid-2" style={{ gap: 0 }}>
+          <div style={{ borderRight: window.innerWidth > 768 ? '1px solid var(--border)' : 'none', borderBottom: window.innerWidth <= 768 ? '1px solid var(--border)' : 'none' }}>
             <div style={{ padding: '12px 20px', background: 'var(--bg-body)', fontSize: 12, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase' }}>🏆 Top Products</div>
             {detailedStats.products.length === 0 ? <div style={{ padding: 20, color: 'var(--text-dim)', fontSize: 12 }}>No product data for this period</div> : (
               <table className="data-table">
@@ -231,37 +249,39 @@ export default function Dashboard() {
           <h3 style={{ fontSize:14, fontWeight:700 }}>🕐 Recent Bills</h3>
           <button className="btn btn-ghost btn-sm" onClick={()=>navigate('/bills')}>View All</button>
         </div>
-        {recentBills.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">📭</div>
-            <p>No bills yet. Create one to get started.</p>
-          </div>
-        ) : (
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Buyer</th>
-                <th>Bill No.</th>
-                <th>Bill Date</th>
-                <th>Amount</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentBills.map(b => (
-                <tr key={b._id}>
-                  <td style={{ fontWeight:600 }}>{b.to}</td>
-                  <td><span className="badge badge-blue">{b.billNo || '—'}</span></td>
-                  <td style={{ color:'var(--text-muted)', fontSize:12 }}>{b.billDate || '—'}</td>
-                  <td style={{ color:'var(--accent)', fontWeight:700 }}>₹ {parseFloat(b.totalAfterTax).toFixed(2)}</td>
-                  <td>
-                    <button className="btn btn-ghost btn-sm" onClick={()=>navigate(`/bills/${b._id}`)}>View</button>
-                  </td>
+        <div className="responsive-table">
+          {recentBills.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-icon">📭</div>
+              <p>No bills yet. Create one to get started.</p>
+            </div>
+          ) : (
+            <table className="data-table mobile-cards">
+              <thead>
+                <tr>
+                  <th>Buyer</th>
+                  <th>Bill No.</th>
+                  <th>Bill Date</th>
+                  <th>Amount</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              </thead>
+              <tbody>
+                {recentBills.map(b => (
+                  <tr key={b._id}>
+                    <td data-label="Buyer" style={{ fontWeight:600 }}>{b.to}</td>
+                    <td data-label="Bill No."><span className="badge badge-blue">{b.billNo || '—'}</span></td>
+                    <td data-label="Date" style={{ color:'var(--text-muted)', fontSize:12 }}>{b.billDate || '—'}</td>
+                    <td data-label="Amount" style={{ color:'var(--accent)', fontWeight:700 }}>₹ {parseFloat(b.totalAfterTax).toFixed(2)}</td>
+                    <td style={{ textAlign: 'right' }}>
+                      <button className="btn btn-ghost btn-sm" onClick={()=>navigate(`/bills/${b._id}`)}>View</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
 
     </div>

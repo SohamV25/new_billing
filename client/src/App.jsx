@@ -20,9 +20,9 @@ export default function App() {
 
       <div className="main-content">
         <header className="top-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <button className="hamburger" onClick={() => setSidebarOpen(o => !o)}>☰</button>
-            <h1>Billing Dashboard</h1>
+            <h1 title="Billing Dashboard">Billing Dashboard</h1>
           </div>
           <span className="header-date">{today}</span>
         </header>

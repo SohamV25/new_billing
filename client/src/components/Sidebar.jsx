@@ -11,7 +11,10 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-brand">
-        <h2>⚡ Soham Research</h2>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+          <h2>⚡ Soham Research</h2>
+          <button className="show-mobile" onClick={onClose} style={{ background:'none', border:'none', color:'var(--text-dim)', fontSize:20, padding:0 }}>✕</button>
+        </div>
         <p>& Marketing Pvt. Ltd.</p>
       </div>
 
@@ -22,10 +25,12 @@ export default function Sidebar({ isOpen, onClose }) {
             to={l.to}
             end={l.to === '/'}
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            onClick={onClose}
+            onClick={() => {
+              if (window.innerWidth < 1024) onClose();
+            }}
           >
             <span className="nav-icon">{l.icon}</span>
-            {l.label}
+            <span className="nav-text">{l.label}</span>
           </NavLink>
         ))}
       </nav>
