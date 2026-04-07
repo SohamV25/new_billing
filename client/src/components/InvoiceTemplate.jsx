@@ -298,7 +298,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
               <thead>
                 <tr>
                   <th rowSpan="2" style={{ width:'20%', fontSize: '15px' }}>Product description</th>
-                  <th rowSpan="2" style={{ width:'10%'  }}>HSN</th>
+                  <th rowSpan="2" style={{ width:'12%'  }}>HSN</th>
                   <th rowSpan="2" style={{ width:'5%'  }}>Qty</th>
                   <th rowSpan="2" style={{ width:'8%'  }}>Rate</th>
                   <th rowSpan="2" style={{ width:'11%' }}>Amount (Rs)</th>
