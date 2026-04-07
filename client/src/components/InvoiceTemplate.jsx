@@ -1,5 +1,13 @@
 import React, { forwardRef } from 'react'
 
+/*
+ * ╔══════════════════════════════════════════════════════════╗
+ * ║  IMMUTABLE INVOICE TEMPLATE                              ║
+ * ║  CSS & HTML are a strict 1:1 port of print.html          ║
+ * ║  DO NOT alter any style property here                    ║
+ * ╚══════════════════════════════════════════════════════════╝
+ */
+
 const MAX_ROWS = 8
 
 const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
@@ -47,6 +55,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
 
   return (
     <>
+      {/* ─── Strict original print.html CSS ─── */}
       <style>{`
         .inv-outer-box {
           width: 210mm;
@@ -57,7 +66,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
           display: flex;
           flex-direction: column;
           position: relative;
-          padding: 8mm;
+          padding: 8mm; /* Reduced padding slightly to ensure border fits */
           box-sizing: border-box;
         }
         .inv-bill-frame {
@@ -161,13 +170,6 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
           font-size: 13px;
           border-bottom: 1px solid black;
         }
-        /* ─── Prevent wrapping in HSN column ─── */
-        .inv-table td:nth-child(2),
-        .inv-table th:nth-child(2) {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
         .inv-end-bill {
           display: grid;
           grid-template-columns: 1.2fr 1fr;
@@ -246,16 +248,31 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
           font-size: 15px;
           font-weight: bold;
           font-family: "Times New Roman", Times, serif;
-          margin-bottom: auto;
+          margin-bottom: auto; /* Push it to the bottom if there is space */
         }
         .inv-footer-right { text-align: right; }
+
+        /* NEW: Prevent HSN column wrapping, fix width */
+        .inv-table td:nth-child(2),
+        .inv-table th:nth-child(2) {
+          white-space: nowrap;
+          min-width: 80px;
+          max-width: 80px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       `}</style>
 
+      {/* ─── Bill Structure ─── */}
       <div className="inv-outer-box" ref={ref} id="invoice_page">
         <div className="inv-bill-frame" id="invoice">
+
+          {/* 1. Invoice label */}
           <div className="inv-flex-invoice">
             <div className="inv-invoice-label">TAX INVOICE</div>
           </div>
+
+          {/* 2. Company header */}
           <div className="inv-flex-heading">
             <div className="inv-main-heading">
               <h1>Soham Research &amp; Marketing Pvt. Ltd</h1>
@@ -266,6 +283,8 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
               <p>GST No : 2 7 A A N C S 2 1 6 7 G 1 Z 3</p>
             </div>
           </div>
+
+          {/* 3. Credentials grid */}
           <div className="inv-credentials-grid">
             <div className="inv-buyer-details">
               <div><b>To,</b></div>
@@ -283,6 +302,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
             </div>
           </div>
 
+          {/* 4. Product Table */}
           <div className="inv-table-container">
             <table className="inv-table">
               <thead>
@@ -319,6 +339,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
             </table>
           </div>
 
+          {/* 5. End-bill section */}
           <div className="inv-end-bill">
             <div className="inv-amt-word">
               <b>Total Invoice Amount in Words :</b><br />
@@ -370,6 +391,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
             </div>
           </div>
 
+          {/* 6. Footer */}
           <div className="inv-footer">
             <div>
               Place Of Supply<br />
