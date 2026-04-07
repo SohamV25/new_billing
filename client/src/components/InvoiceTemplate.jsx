@@ -152,7 +152,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
           text-align: center;
           font-size: 13px;
           font-weight: 600;
-          padding: 8px 4px;
+          padding: 6px 8px;
           line-height: 1.4;
           box-sizing: border-box;
           white-space: nowrap;
