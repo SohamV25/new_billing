@@ -7,7 +7,7 @@ require('dotenv').config();
 const app = express();
 
 // ======================
-// ✅ CORS CONFIG
+// ✅ CORS CONFIG (FIXED)
 // ======================
 const allowedOrigins = [
   process.env.FRONTEND_URL,
@@ -17,14 +17,21 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
+    // Allow requests without origin (Postman, mobile apps)
     if (!origin) return callback(null, true);
 
-    const isAllowed = allowedOrigins.some(o => origin.startsWith(o));
+    // Normalize origin (remove trailing slash)
+    const cleanOrigin = origin.replace(/\/$/, '');
 
-    if (isAllowed || origin.includes('railway.app') || process.env.NODE_ENV !== 'production') {
+    const isAllowed =
+      allowedOrigins.includes(cleanOrigin) ||
+      cleanOrigin.endsWith('.vercel.app'); // allow all Vercel deployments
+
+    if (isAllowed) {
       return callback(null, true);
     }
 
+    console.log("❌ Blocked Origin:", origin);
     return callback(new Error('CORS not allowed'), false);
   },
   credentials: true
@@ -62,17 +69,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // ======================
-// ✅ START SERVER (CRITICAL FIX HERE)
+// ✅ START SERVER
 // ======================
 const PORT = process.env.PORT || 5000;
 
-// Start server FIRST (important for Railway)
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`🚀 Server running on port ${PORT}`);
 
-  // ======================
-  // ✅ CONNECT MONGO
-  // ======================
   try {
     if (!process.env.MONGO_URI) {
       console.error('❌ MONGO_URI not defined');
