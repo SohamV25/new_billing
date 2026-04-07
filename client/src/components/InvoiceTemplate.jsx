@@ -144,7 +144,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
         .inv-table {
           width: 100%;
           border-collapse: collapse;
-          table-layout: fixed;
+          table-layout: auto;
           font-family: "Times New Roman", Times, serif;
         }
         .inv-table th, .inv-table td {
@@ -153,9 +153,13 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
           font-size: 13px;
           font-weight: 600;
           padding: 8px 4px;
-          word-wrap: break-word;
           line-height: 1.4;
           box-sizing: border-box;
+          white-space: nowrap;
+        }
+        .inv-table th:first-child, .inv-table td:first-child {
+          white-space: normal;
+          word-wrap: break-word;
         }
         .inv-table tr th:first-child, .inv-table tr td:first-child { border-left: none; }
         .inv-table tr th:last-child,  .inv-table tr td:last-child  { border-right: none; }
@@ -253,14 +257,7 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
         .inv-footer-right { text-align: right; }
 
         /* NEW: Prevent HSN column wrapping, fix width */
-        .inv-table td:nth-child(2),
-        .inv-table th:nth-child(2) {
-          white-space: nowrap;
-          min-width: 80px;
-          max-width: 80px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
+
       `}</style>
 
       {/* ─── Bill Structure ─── */}
@@ -307,15 +304,15 @@ const InvoiceTemplate = forwardRef(function InvoiceTemplate({ data }, ref) {
             <table className="inv-table">
               <thead>
                 <tr>
-                  <th rowSpan="2" style={{ width:'20%', fontSize: '15px' }}>Product description</th>
-                  <th rowSpan="2" style={{ width:'12%'  }}>HSN</th>
-                  <th rowSpan="2" style={{ width:'5%'  }}>Qty</th>
-                  <th rowSpan="2" style={{ width:'8%'  }}>Rate</th>
-                  <th rowSpan="2" style={{ width:'11%' }}>Amount (Rs)</th>
-                  <th colSpan="2" style={{ width:'11%' }}>CGST</th>
-                  <th colSpan="2" style={{ width:'11%' }}>SGST</th>
-                  <th colSpan="2" style={{ width:'11%' }}>IGST</th>
-                  <th rowSpan="2" style={{ width:'13%' }}>Total(Rs)</th>
+                  <th rowSpan="2" style={{ width: '100%', fontSize: '15px' }}>Product description</th>
+                  <th rowSpan="2">HSN</th>
+                  <th rowSpan="2">Qty</th>
+                  <th rowSpan="2">Rate</th>
+                  <th rowSpan="2">Amount (Rs)</th>
+                  <th colSpan="2">CGST</th>
+                  <th colSpan="2">SGST</th>
+                  <th colSpan="2">IGST</th>
+                  <th rowSpan="2">Total(Rs)</th>
                 </tr>
                 <tr>
                   <th>%</th><th>Amt</th>
