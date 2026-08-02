@@ -1,0 +1,418 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Stitch Billing - Bill #1002</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              secondary: "#adc7ff",
+              "tertiary-fixed-dim": "#a7d0b3",
+              "on-tertiary-container": "#274c36",
+              "surface-container-high": "#2a2a2b",
+              surface: "#131314",
+              "tertiary-container": "#94bca0",
+              "on-secondary-fixed-variant": "#004493",
+              "surface-container-lowest": "#0e0e0f",
+              "on-primary-container": "#0d4582",
+              "surface-container": "#201f20",
+              "outline-variant": "#424750",
+              "secondary-container": "#026be0",
+              "primary-fixed-dim": "#a8c8ff",
+              background: "#131314",
+              "on-primary-fixed-variant": "#114784",
+              "inverse-on-surface": "#313031",
+              "on-secondary-container": "#f2f4ff",
+              "on-primary-fixed": "#001b3c",
+              "surface-container-highest": "#353436",
+              "on-primary": "#003061",
+              "secondary-fixed-dim": "#adc7ff",
+              "on-surface": "#e5e2e3",
+              "on-error": "#690005",
+              "tertiary-fixed": "#c3edcf",
+              "primary-container": "#8ab4f8",
+              "surface-container-low": "#1c1b1c",
+              "on-error-container": "#ffdad6",
+              "inverse-primary": "#315f9d",
+              "on-secondary-fixed": "#001a41",
+              "error-container": "#93000a",
+              tertiary: "#afd8bb",
+              "primary-fixed": "#d5e3ff",
+              "surface-tint": "#a8c8ff",
+              "surface-bright": "#39393a",
+              "secondary-fixed": "#d8e2ff",
+              "surface-variant": "#353436",
+              outline: "#8d919b",
+              error: "#ffb4ab",
+              "on-tertiary-fixed-variant": "#294e38",
+              "surface-dim": "#131314",
+              "on-secondary": "#002e68",
+              "on-surface-variant": "#c3c6d1",
+              "on-tertiary": "#113723",
+              "inverse-surface": "#e5e2e3",
+              primary: "#b5cfff",
+              "on-background": "#e5e2e3",
+              "on-tertiary-fixed": "#002110",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              unit: "4px",
+              "container-padding": "24px",
+              "margin-mobile": "16px",
+              "margin-desktop": "32px",
+              gutter: "16px",
+            },
+            fontFamily: {
+              "body-md": ["Inter"],
+              "headline-md": ["Inter"],
+              "label-md": ["Geist"],
+              "headline-sm": ["Inter"],
+              "body-lg": ["Inter"],
+              "mono-sm": ["Geist"],
+              "headline-lg": ["Inter"],
+            },
+            fontSize: {
+              "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                { lineHeight: "28px", fontWeight: "500" },
+              ],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "mono-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        background-color: #131314;
+        color: #e5e2e3;
+        -webkit-font-smoothing: antialiased;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="font-body-md text-body-md overflow-x-hidden">
+    <!-- Top App Bar -->
+    <header
+      class="bg-surface dark:bg-surface border-outline-variant px-margin-mobile fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b"
+    >
+      <div class="flex items-center gap-3">
+        <button
+          class="hover:bg-surface-variant text-on-surface flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200"
+        >
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1 class="font-headline-sm text-headline-sm text-on-surface">
+          Bill #1002
+        </h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <span
+          class="font-label-md text-label-md rounded-full border border-[#274c36] bg-[#1b2b23] px-3 py-1 text-[#c4eed0]"
+          >Paid</span
+        >
+        <div
+          class="border-outline-variant h-8 w-8 overflow-hidden rounded-full border"
+        >
+          <img
+            class="h-full w-full object-cover"
+            data-alt="A professional user profile avatar for a fintech developer, featuring a stylized 3D minimalist headshot against a dark technical background. The lighting is low-key with subtle blue rim light, matching a dark mode aesthetic of corporate minimalism. High density of detail on skin texture and fabric of a technical hoodie."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJuJsu5lu2oLN97gDWYogGgUHG6Po-ZpjZHoVrD8XSyytM41R9nB6jUS6J2VfOKRGPeHmbG3dU-1-5OLHDhE0UIPrC4J0SfjhBk1WHhhDDlnpgW2eLDTCaqZhXQ6Ai3TMMlRF4tZk2YI2KIJPm18smJhD2Tok8jNnJDJE5invSM1vGJ2lnZGEYjKZowz8DUUQFeyYlw9Hq4rUiNtG_DIlJ5PiG5atFrQAGJqhgjEHlnyh97yvKZHb50A"
+          />
+        </div>
+      </div>
+    </header>
+    <main class="px-margin-mobile space-y-6 pt-20 pb-32">
+      <!-- Header Info Card: Slate/Surface-Container Background -->
+      <section
+        class="bg-surface-container border-outline-variant rounded-xl border p-6 shadow-sm"
+      >
+        <div class="flex flex-col gap-6">
+          <div class="flex items-start justify-between">
+            <div class="space-y-1">
+              <p
+                class="font-label-md text-label-md text-on-surface-variant tracking-wider uppercase"
+              >
+                Client
+              </p>
+              <h2 class="font-headline-md text-headline-md text-on-surface">
+                Stellar Dynamics Inc.
+              </h2>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                billing@stellardynamics.io
+              </p>
+            </div>
+            <div class="text-right">
+              <p
+                class="font-label-md text-label-md text-on-surface-variant tracking-wider uppercase"
+              >
+                Total Amount
+              </p>
+              <p class="font-headline-md text-headline-md text-primary">
+                $12,450.00
+              </p>
+            </div>
+          </div>
+          <div
+            class="border-outline-variant grid grid-cols-2 gap-4 border-t pt-4"
+          >
+            <div>
+              <p
+                class="font-label-md text-label-md text-on-surface-variant tracking-wider uppercase"
+              >
+                Issued Date
+              </p>
+              <p class="font-mono-sm text-mono-sm text-on-surface mt-1">
+                Oct 24, 2023
+              </p>
+            </div>
+            <div>
+              <p
+                class="font-label-md text-label-md text-on-surface-variant tracking-wider uppercase"
+              >
+                Due Date
+              </p>
+              <p class="font-mono-sm text-mono-sm text-on-surface mt-1">
+                Nov 24, 2023
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Line Items Section -->
+      <section class="space-y-3">
+        <h3
+          class="font-label-md text-label-md text-on-surface-variant px-2 uppercase"
+        >
+          Line Items
+        </h3>
+        <div
+          class="bg-surface-container-low border-outline-variant overflow-hidden rounded-xl border"
+        >
+          <table class="w-full border-collapse text-left">
+            <thead class="bg-surface-container-high">
+              <tr>
+                <th
+                  class="font-label-md text-label-md text-on-surface-variant px-4 py-3"
+                >
+                  Description
+                </th>
+                <th
+                  class="font-label-md text-label-md text-on-surface-variant px-4 py-3 text-right"
+                >
+                  Amount
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-outline-variant divide-y">
+              <tr class="hover:bg-surface-variant transition-colors">
+                <td class="px-4 py-4">
+                  <p class="font-body-md text-body-md text-on-surface">
+                    API Usage - Tier 3
+                  </p>
+                  <p class="text-on-surface-variant text-[11px]">
+                    Oct 1 - Oct 31 Billing Period
+                  </p>
+                </td>
+                <td
+                  class="font-mono-sm text-mono-sm text-on-surface px-4 py-4 text-right"
+                >
+                  $8,500.00
+                </td>
+              </tr>
+              <tr class="hover:bg-surface-variant transition-colors">
+                <td class="px-4 py-4">
+                  <p class="font-body-md text-body-md text-on-surface">
+                    Infrastructure Management
+                  </p>
+                  <p class="text-on-surface-variant text-[11px]">
+                    Managed Kubernetes Cluster (3 nodes)
+                  </p>
+                </td>
+                <td
+                  class="font-mono-sm text-mono-sm text-on-surface px-4 py-4 text-right"
+                >
+                  $3,200.00
+                </td>
+              </tr>
+              <tr class="hover:bg-surface-variant transition-colors">
+                <td class="px-4 py-4">
+                  <p class="font-body-md text-body-md text-on-surface">
+                    Support - Platinum
+                  </p>
+                  <p class="text-on-surface-variant text-[11px]">
+                    24/7 Dedicated Technical Engineer
+                  </p>
+                </td>
+                <td
+                  class="font-mono-sm text-mono-sm text-on-surface px-4 py-4 text-right"
+                >
+                  $750.00
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="bg-surface-container">
+              <tr>
+                <td
+                  class="font-label-md text-label-md text-on-surface-variant px-4 py-4"
+                >
+                  Subtotal
+                </td>
+                <td
+                  class="font-mono-sm text-mono-sm text-on-surface px-4 py-4 text-right"
+                >
+                  $12,450.00
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+      <!-- Payment History / Notes -->
+      <section
+        class="bg-surface-container border-outline-variant flex items-center gap-4 rounded-xl border p-4"
+      >
+        <div
+          class="bg-tertiary-container/20 text-tertiary flex h-10 w-10 items-center justify-center rounded-lg"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 1"
+            >verified</span
+          >
+        </div>
+        <div>
+          <p class="font-label-md text-label-md text-on-surface">
+            Payment Confirmed
+          </p>
+          <p class="text-on-surface-variant text-[11px]">
+            Transferred via ACH on Nov 12, 2023
+          </p>
+        </div>
+      </section>
+    </main>
+    <!-- Bottom Action Bar -->
+    <div
+      class="bg-surface border-outline-variant pb-safe hide-scrollbar fixed bottom-0 left-0 z-50 flex w-full gap-2 overflow-x-auto border-t px-4 py-4"
+    >
+      <button
+        class="border-outline text-primary hover:bg-surface-container-high flex h-11 min-w-[120px] flex-1 items-center justify-center gap-2 rounded-lg border px-4 transition-all active:scale-95"
+      >
+        <span class="material-symbols-outlined text-[18px]">download</span>
+        <span class="font-label-md text-label-md whitespace-nowrap"
+          >Download PDF</span
+        >
+      </button>
+      <button
+        class="border-outline text-primary hover:bg-surface-container-high flex h-11 min-w-[120px] flex-1 items-center justify-center gap-2 rounded-lg border px-4 transition-all active:scale-95"
+      >
+        <span class="material-symbols-outlined text-[18px]">share</span>
+        <span class="font-label-md text-label-md whitespace-nowrap">Share</span>
+      </button>
+      <button
+        class="border-outline text-on-surface-variant flex h-11 min-w-[140px] flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-lg border px-4 opacity-50 transition-all"
+      >
+        <span class="material-symbols-outlined text-[18px]">check_circle</span>
+        <span class="font-label-md text-label-md whitespace-nowrap"
+          >Mark as Paid</span
+        >
+      </button>
+    </div>
+    <!-- Background Subtle Effect -->
+    <div class="pointer-events-none fixed inset-0 z-[-1] opacity-20">
+      <div
+        class="bg-primary/20 absolute top-0 right-0 h-[500px] w-[500px] translate-x-1/3 -translate-y-1/2 rounded-full blur-[120px]"
+      ></div>
+      <div
+        class="bg-secondary/10 absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/4 translate-y-1/3 rounded-full blur-[100px]"
+      ></div>
+    </div>
+    <script>
+      // Micro-interaction for buttons
+      document.querySelectorAll("button").forEach((btn) => {
+        btn.addEventListener("touchstart", () => {
+          btn.style.transform = "scale(0.96)";
+        });
+        btn.addEventListener("touchend", () => {
+          btn.style.transform = "scale(1)";
+        });
+      });
+
+      // Hide navigation on scroll down, show on scroll up logic could be added here for focused view
+      let lastScroll = 0;
+      window.addEventListener("scroll", () => {
+        const currentScroll = window.pageYOffset;
+        const header = document.querySelector("header");
+        if (currentScroll > lastScroll && currentScroll > 100) {
+          header.classList.add("-translate-y-full");
+        } else {
+          header.classList.remove("-translate-y-full");
+        }
+        header.classList.add("transition-transform", "duration-300");
+        lastScroll = currentScroll;
+      });
+    </script>
+  </body>
+</html>

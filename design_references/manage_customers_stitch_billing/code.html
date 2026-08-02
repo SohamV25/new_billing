@@ -1,0 +1,506 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Stitch Billing - Customer CRM</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              secondary: "#adc7ff",
+              "tertiary-fixed-dim": "#a7d0b3",
+              "on-tertiary-container": "#274c36",
+              "surface-container-high": "#2a2a2b",
+              surface: "#131314",
+              "tertiary-container": "#94bca0",
+              "on-secondary-fixed-variant": "#004493",
+              "surface-container-lowest": "#0e0e0f",
+              "on-primary-container": "#0d4582",
+              "surface-container": "#201f20",
+              "outline-variant": "#424750",
+              "secondary-container": "#026be0",
+              "primary-fixed-dim": "#a8c8ff",
+              background: "#131314",
+              "on-primary-fixed-variant": "#114784",
+              "inverse-on-surface": "#313031",
+              "on-secondary-container": "#f2f4ff",
+              "on-primary-fixed": "#001b3c",
+              "surface-container-highest": "#353436",
+              "on-primary": "#003061",
+              "secondary-fixed-dim": "#adc7ff",
+              "on-surface": "#e5e2e3",
+              "on-error": "#690005",
+              "tertiary-fixed": "#c3edcf",
+              "primary-container": "#8ab4f8",
+              "surface-container-low": "#1c1b1c",
+              "on-error-container": "#ffdad6",
+              "inverse-primary": "#315f9d",
+              "on-secondary-fixed": "#001a41",
+              "error-container": "#93000a",
+              tertiary: "#afd8bb",
+              "primary-fixed": "#d5e3ff",
+              "surface-tint": "#a8c8ff",
+              "surface-bright": "#39393a",
+              "secondary-fixed": "#d8e2ff",
+              "surface-variant": "#353436",
+              outline: "#8d919b",
+              error: "#ffb4ab",
+              "on-tertiary-fixed-variant": "#294e38",
+              "surface-dim": "#131314",
+              "on-secondary": "#002e68",
+              "on-surface-variant": "#c3c6d1",
+              "on-tertiary": "#113723",
+              "inverse-surface": "#e5e2e3",
+              primary: "#b5cfff",
+              "on-background": "#e5e2e3",
+              "on-tertiary-fixed": "#002110",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              unit: "4px",
+              "container-padding": "24px",
+              "margin-mobile": "16px",
+              "margin-desktop": "32px",
+              gutter: "16px",
+            },
+            fontFamily: {
+              "body-md": ["Inter"],
+              "headline-md": ["Inter"],
+              "label-md": ["Geist"],
+              "headline-sm": ["Inter"],
+              "body-lg": ["Inter"],
+              "mono-sm": ["Geist"],
+              "headline-lg": ["Inter"],
+            },
+            fontSize: {
+              "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                { lineHeight: "28px", fontWeight: "500" },
+              ],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "mono-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #131314;
+        color: #e5e2e3;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+        display: inline-block;
+        line-height: 1;
+      }
+      /* Custom prompt-style focus effect */
+      .prompt-input:focus-within {
+        box-shadow: 0 0 0 1px #8ab4f8;
+        background-color: #212327;
+      }
+      .scroll-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scroll-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      /* Transition screens */
+      .screen {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .screen.active {
+        display: block;
+        opacity: 1;
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body class="font-body-md text-body-md overflow-x-hidden">
+    <!-- Top AppBar (Persistent) -->
+    <header
+      class="bg-surface dark:bg-surface border-outline-variant px-margin-mobile fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="bg-primary-container text-on-primary-container flex h-8 w-8 items-center justify-center overflow-hidden rounded-full"
+        >
+          <img
+            class="h-full w-full object-cover"
+            data-alt="A professional close-up headshot of a software engineer with a neutral expression, clean lighting, set against a dark, tech-oriented studio background. The style is modern, cinematic, and professional with high contrast and deep blacks to match a premium dark mode UI."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdPr0r2HrrRdtNzMgdCnf_fFW0qOzrS-DOh0iINskt7YCvz4Lc9-wgj7261ZojamNU__6FJ7ugkYLAHRM6Sv8SBRzJJQYkDMDYI-v0De13ypjKOCuHfy8X3o5FxG1xc-qReQjmMdjhot3XfZSdP5LrBK9uJ9gSBinkKCLEbsm_KYxwNP10Qu6Jg6niY-A4c5e8PVwqJlBF1IDhhWJ5qoe17EOApoZAJYbdBTXFFz3xinvPm4hQOw67KQ"
+          />
+        </div>
+        <span class="font-headline-sm text-headline-sm text-primary"
+          >Stitch Billing</span
+        >
+      </div>
+      <button
+        class="hover:bg-surface-variant flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200"
+      >
+        <span class="material-symbols-outlined text-primary"
+          >notifications</span
+        >
+      </button>
+    </header>
+    <!-- Content Canvas -->
+    <main class="min-h-screen pt-16 pb-20">
+      <!-- SCREEN 1: LIST VIEW -->
+      <section class="screen active p-margin-mobile space-y-6" id="screen-list">
+        <!-- Google AI Studio Style Search Prompt -->
+        <div
+          class="prompt-input bg-surface-container-low border-outline-variant relative rounded-xl border p-3 transition-all duration-200"
+        >
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-outline mt-1"
+              >search</span
+            >
+            <textarea
+              class="text-body-md placeholder:text-outline w-full resize-none border-none bg-transparent p-0 leading-relaxed focus:ring-0"
+              placeholder="Search customers by name, email, or metadata..."
+              rows="1"
+            ></textarea>
+          </div>
+          <div
+            class="border-outline-variant/30 mt-2 flex justify-end border-t pt-2"
+          >
+            <div class="text-outline flex items-center gap-4">
+              <span class="text-label-md font-label-md"
+                >Press
+                <kbd
+                  class="bg-surface-container-highest border-outline-variant rounded border px-1.5 py-0.5"
+                  >⌘ K</kbd
+                ></span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Customer List Section -->
+        <div class="space-y-1">
+          <div class="mb-2 flex items-center justify-between px-1">
+            <h2
+              class="font-label-md text-label-md text-outline tracking-wider uppercase"
+            >
+              Active Customers (24)
+            </h2>
+            <button
+              class="text-primary-container font-label-md text-label-md flex items-center gap-1"
+              onclick="switchScreen('screen-add')"
+            >
+              <span class="material-symbols-outlined text-[18px]">add</span> ADD
+              NEW
+            </button>
+          </div>
+          <!-- Customer Items -->
+          <div
+            class="bg-surface-container border-outline-variant divide-outline-variant divide-y rounded-lg border"
+          >
+            <div
+              class="hover:bg-surface-variant group flex cursor-pointer items-center justify-between p-4 transition-colors"
+            >
+              <div class="flex items-center gap-4">
+                <div
+                  class="bg-surface-container-highest text-secondary flex h-10 w-10 items-center justify-center rounded-lg font-bold"
+                >
+                  JD
+                </div>
+                <div>
+                  <p class="font-body-lg text-on-surface font-medium">
+                    Jordan Dalen
+                  </p>
+                  <p class="text-label-md text-on-surface-variant font-mono-sm">
+                    j.dalen@stardust.io
+                  </p>
+                </div>
+              </div>
+              <span
+                class="material-symbols-outlined text-outline group-hover:text-primary transition-transform group-hover:translate-x-1"
+                >chevron_right</span
+              >
+            </div>
+            <div
+              class="hover:bg-surface-variant group flex cursor-pointer items-center justify-between p-4 transition-colors"
+            >
+              <div class="flex items-center gap-4">
+                <div
+                  class="bg-surface-container-highest text-secondary flex h-10 w-10 items-center justify-center rounded-lg font-bold"
+                >
+                  AS
+                </div>
+                <div>
+                  <p class="font-body-lg text-on-surface font-medium">
+                    Amara Smith
+                  </p>
+                  <p class="text-label-md text-on-surface-variant font-mono-sm">
+                    amara@designsystem.co
+                  </p>
+                </div>
+              </div>
+              <span
+                class="material-symbols-outlined text-outline group-hover:text-primary transition-transform group-hover:translate-x-1"
+                >chevron_right</span
+              >
+            </div>
+            <div
+              class="hover:bg-surface-variant group flex cursor-pointer items-center justify-between p-4 transition-colors"
+            >
+              <div class="flex items-center gap-4">
+                <div
+                  class="bg-surface-container-highest text-secondary flex h-10 w-10 items-center justify-center rounded-lg font-bold"
+                >
+                  KM
+                </div>
+                <div>
+                  <p class="font-body-lg text-on-surface font-medium">
+                    Kellan Moore
+                  </p>
+                  <p class="text-label-md text-on-surface-variant font-mono-sm">
+                    kellan@vector.dev
+                  </p>
+                </div>
+              </div>
+              <span
+                class="material-symbols-outlined text-outline group-hover:text-primary transition-transform group-hover:translate-x-1"
+                >chevron_right</span
+              >
+            </div>
+            <div
+              class="hover:bg-surface-variant group flex cursor-pointer items-center justify-between p-4 transition-colors"
+            >
+              <div class="flex items-center gap-4">
+                <div
+                  class="bg-surface-container-highest text-secondary flex h-10 w-10 items-center justify-center rounded-lg font-bold"
+                >
+                  LZ
+                </div>
+                <div>
+                  <p class="font-body-lg text-on-surface font-medium">
+                    Liam Zhang
+                  </p>
+                  <p class="text-label-md text-on-surface-variant font-mono-sm">
+                    lz@cloudflow.net
+                  </p>
+                </div>
+              </div>
+              <span
+                class="material-symbols-outlined text-outline group-hover:text-primary transition-transform group-hover:translate-x-1"
+                >chevron_right</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- SCREEN 2: ADD CUSTOMER FORM -->
+      <section class="screen p-margin-mobile space-y-8" id="screen-add">
+        <div class="flex items-center gap-4">
+          <button
+            class="hover:bg-surface-variant text-on-surface-variant flex h-10 w-10 items-center justify-center rounded-full"
+            onclick="switchScreen('screen-list')"
+          >
+            <span class="material-symbols-outlined">arrow_back</span>
+          </button>
+          <h1 class="font-headline-md text-headline-md">New Customer</h1>
+        </div>
+        <form
+          class="space-y-6"
+          onsubmit="
+            event.preventDefault();
+            switchScreen('screen-list');
+          "
+        >
+          <div class="space-y-4">
+            <div class="space-y-1.5">
+              <label class="font-label-md text-label-md text-outline px-1"
+                >FULL NAME</label
+              >
+              <input
+                class="bg-surface-container-low border-outline-variant text-body-md focus:border-primary-container focus:ring-primary-container placeholder:text-outline-variant w-full rounded-lg border p-3 transition-all outline-none focus:ring-1"
+                placeholder="e.g. Alex Rivera"
+                type="text"
+              />
+            </div>
+            <div class="space-y-1.5">
+              <label class="font-label-md text-label-md text-outline px-1"
+                >EMAIL ADDRESS</label
+              >
+              <input
+                class="bg-surface-container-low border-outline-variant text-body-md focus:border-primary-container focus:ring-primary-container placeholder:text-outline-variant font-mono-sm w-full rounded-lg border p-3 transition-all outline-none focus:ring-1"
+                placeholder="alex@company.com"
+                type="email"
+              />
+            </div>
+            <div class="space-y-1.5">
+              <label class="font-label-md text-label-md text-outline px-1"
+                >PHONE NUMBER</label
+              >
+              <input
+                class="bg-surface-container-low border-outline-variant text-body-md focus:border-primary-container focus:ring-primary-container placeholder:text-outline-variant font-mono-sm w-full rounded-lg border p-3 transition-all outline-none focus:ring-1"
+                placeholder="+1 (555) 000-0000"
+                type="tel"
+              />
+            </div>
+            <div class="space-y-1.5">
+              <label class="font-label-md text-label-md text-outline px-1"
+                >STREET ADDRESS</label
+              >
+              <textarea
+                class="bg-surface-container-low border-outline-variant text-body-md focus:border-primary-container focus:ring-primary-container placeholder:text-outline-variant w-full resize-none rounded-lg border p-3 transition-all outline-none focus:ring-1"
+                placeholder="Street, City, State, ZIP"
+                rows="3"
+              ></textarea>
+            </div>
+          </div>
+          <div class="pt-4">
+            <button
+              class="bg-secondary-container text-on-secondary-container font-body-lg flex h-12 w-full items-center justify-center gap-2 rounded-lg font-semibold shadow-sm transition-transform duration-100 active:scale-[0.98]"
+              type="submit"
+            >
+              <span class="material-symbols-outlined text-[20px]">save</span>
+              Save Customer
+            </button>
+            <p class="text-label-md text-outline mt-4 text-center">
+              All billing data is encrypted and secure.
+            </p>
+          </div>
+        </form>
+      </section>
+    </main>
+    <!-- Bottom Navigation Shell -->
+    <nav
+      class="pb-safe bg-surface border-outline-variant fixed bottom-0 left-0 z-50 flex h-16 w-full items-center justify-around border-t px-2"
+    >
+      <button
+        class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high flex flex-1 flex-col items-center justify-center transition-all duration-100 active:scale-95"
+      >
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="font-label-md text-label-md">Dashboard</span>
+      </button>
+      <button
+        class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high flex flex-1 flex-col items-center justify-center transition-all duration-100 active:scale-95"
+      >
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="font-label-md text-label-md">Invoices</span>
+      </button>
+      <button
+        class="text-primary-container dark:text-primary-container hover:bg-surface-container-high flex flex-1 flex-col items-center justify-center font-bold transition-all duration-100 active:scale-95"
+        id="nav-customers"
+      >
+        <span
+          class="material-symbols-outlined"
+          style="font-variation-settings: &quot;FILL&quot; 1"
+          >group</span
+        >
+        <span class="font-label-md text-label-md">Customers</span>
+      </button>
+      <button
+        class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high flex flex-1 flex-col items-center justify-center transition-all duration-100 active:scale-95"
+      >
+        <span class="material-symbols-outlined">settings</span>
+        <span class="font-label-md text-label-md">Settings</span>
+      </button>
+    </nav>
+    <!-- Floating Action Button (Contextual for List Screen) -->
+    <button
+      class="bg-primary-container text-on-primary-container fixed right-6 bottom-20 z-40 flex h-14 w-14 items-center justify-center rounded-2xl shadow-xl transition-all duration-200 active:scale-90"
+      id="main-fab"
+      onclick="switchScreen('screen-add')"
+    >
+      <span class="material-symbols-outlined text-[28px]">person_add</span>
+    </button>
+    <script>
+      function switchScreen(screenId) {
+        const screens = document.querySelectorAll(".screen");
+        const fab = document.getElementById("main-fab");
+
+        screens.forEach((s) => {
+          s.classList.remove("active");
+        });
+
+        const target = document.getElementById(screenId);
+        target.classList.add("active");
+
+        // Contextual FAB suppression
+        if (screenId === "screen-add") {
+          fab.style.opacity = "0";
+          fab.style.pointerEvents = "none";
+          fab.style.transform = "translateY(20px)";
+        } else {
+          fab.style.opacity = "1";
+          fab.style.pointerEvents = "auto";
+          fab.style.transform = "translateY(0)";
+        }
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Auto-expand textarea for prompt style
+      const textarea = document.querySelector("textarea");
+      if (textarea) {
+        textarea.addEventListener("input", function () {
+          this.style.height = "auto";
+          this.style.height = this.scrollHeight + "px";
+        });
+      }
+    </script>
+  </body>
+</html>

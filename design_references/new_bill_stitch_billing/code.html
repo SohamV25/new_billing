@@ -1,0 +1,420 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Stitch Billing - New Bill</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              secondary: "#adc7ff",
+              "tertiary-fixed-dim": "#a7d0b3",
+              "on-tertiary-container": "#274c36",
+              "surface-container-high": "#2a2a2b",
+              surface: "#131314",
+              "tertiary-container": "#94bca0",
+              "on-secondary-fixed-variant": "#004493",
+              "surface-container-lowest": "#0e0e0f",
+              "on-primary-container": "#0d4582",
+              "surface-container": "#201f20",
+              "outline-variant": "#424750",
+              "secondary-container": "#026be0",
+              "primary-fixed-dim": "#a8c8ff",
+              background: "#131314",
+              "on-primary-fixed-variant": "#114784",
+              "inverse-on-surface": "#313031",
+              "on-secondary-container": "#f2f4ff",
+              "on-primary-fixed": "#001b3c",
+              "surface-container-highest": "#353436",
+              "on-primary": "#003061",
+              "secondary-fixed-dim": "#adc7ff",
+              "on-surface": "#e5e2e3",
+              "on-error": "#690005",
+              "tertiary-fixed": "#c3edcf",
+              "primary-container": "#8ab4f8",
+              "surface-container-low": "#1c1b1c",
+              "on-error-container": "#ffdad6",
+              "inverse-primary": "#315f9d",
+              "on-secondary-fixed": "#001a41",
+              "error-container": "#93000a",
+              tertiary: "#afd8bb",
+              "primary-fixed": "#d5e3ff",
+              "surface-tint": "#a8c8ff",
+              "surface-bright": "#39393a",
+              "secondary-fixed": "#d8e2ff",
+              "surface-variant": "#353436",
+              outline: "#8d919b",
+              error: "#ffb4ab",
+              "on-tertiary-fixed-variant": "#294e38",
+              "surface-dim": "#131314",
+              "on-secondary": "#002e68",
+              "on-surface-variant": "#c3c6d1",
+              "on-tertiary": "#113723",
+              "inverse-surface": "#e5e2e3",
+              primary: "#b5cfff",
+              "on-background": "#e5e2e3",
+              "on-tertiary-fixed": "#002110",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              unit: "4px",
+              "container-padding": "24px",
+              "margin-mobile": "16px",
+              "margin-desktop": "32px",
+              gutter: "16px",
+            },
+            fontFamily: {
+              "body-md": ["Inter"],
+              "headline-md": ["Inter"],
+              "label-md": ["Geist"],
+              "headline-sm": ["Inter"],
+              "body-lg": ["Inter"],
+              "mono-sm": ["Geist"],
+              "headline-lg": ["Inter"],
+            },
+            fontSize: {
+              "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                { lineHeight: "28px", fontWeight: "500" },
+              ],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "mono-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+      }
+      body {
+        background-color: #131314;
+        color: #e5e2e3;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #131314;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #424750;
+        border-radius: 2px;
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #8ab4f8 !important;
+        box-shadow: 0 0 0 1px rgba(138, 180, 248, 0.2);
+      }
+    </style>
+  </head>
+  <body class="font-body-md text-body-md overflow-x-hidden">
+    <!-- Top Navigation Header -->
+    <header
+      class="bg-surface px-margin-mobile border-outline-variant fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b"
+    >
+      <div class="flex items-center gap-4">
+        <button
+          class="hover:bg-surface-variant flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200"
+        >
+          <span class="material-symbols-outlined text-on-surface">close</span>
+        </button>
+        <h1 class="font-headline-sm text-headline-sm text-on-surface">
+          New Bill
+        </h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="font-label-md text-label-md text-on-surface-variant px-2"
+          >Draft</span
+        >
+      </div>
+    </header>
+    <main class="px-margin-mobile mx-auto max-w-md pt-20 pb-32">
+      <!-- Client & Date Section -->
+      <section class="mb-8 space-y-6">
+        <div class="space-y-2">
+          <label class="font-label-md text-label-md text-on-surface-variant"
+            >Select Client</label
+          >
+          <div class="relative">
+            <select
+              class="bg-surface-container border-outline-variant text-on-surface font-body-md w-full appearance-none rounded-lg border px-4 py-3 transition-colors"
+            >
+              <option value="">Choose a client...</option>
+              <option value="1">Acme Global Holdings</option>
+              <option value="2">Cyberdyne Systems</option>
+              <option value="3">Stark Industries</option>
+            </select>
+            <div
+              class="pointer-events-none absolute inset-y-0 right-3 flex items-center"
+            >
+              <span class="material-symbols-outlined text-on-surface-variant"
+                >expand_more</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="gap-gutter grid grid-cols-2">
+          <div class="space-y-2">
+            <label class="font-label-md text-label-md text-on-surface-variant"
+              >Bill Date</label
+            >
+            <input
+              class="bg-surface-container border-outline-variant text-on-surface font-body-md w-full rounded-lg border px-4 py-3"
+              type="date"
+              value="2023-11-20"
+            />
+          </div>
+          <div class="space-y-2">
+            <label class="font-label-md text-label-md text-on-surface-variant"
+              >Due Date</label
+            >
+            <input
+              class="bg-surface-container border-outline-variant text-on-surface font-body-md w-full rounded-lg border px-4 py-3"
+              type="date"
+              value="2023-12-20"
+            />
+          </div>
+        </div>
+      </section>
+      <!-- Line Items Section -->
+      <section class="space-y-4">
+        <div class="flex items-end justify-between">
+          <h2
+            class="font-label-md text-label-md text-on-surface-variant tracking-wider uppercase"
+          >
+            Line Items
+          </h2>
+        </div>
+        <!-- Grouped Container for Items -->
+        <div
+          class="bg-surface-container border-outline-variant divide-outline-variant divide-y overflow-hidden rounded-xl border"
+        >
+          <!-- Item row 1 -->
+          <div class="group relative space-y-3 p-4">
+            <div class="flex items-start justify-between">
+              <input
+                class="text-on-surface font-body-lg placeholder:text-outline w-full border-none bg-transparent p-0 focus:ring-0"
+                placeholder="Item description"
+                type="text"
+                value="API Integration - Phase 1"
+              />
+              <button
+                class="text-error opacity-0 transition-opacity group-hover:opacity-100"
+              >
+                <span class="material-symbols-outlined text-[20px]"
+                  >delete</span
+                >
+              </button>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="flex-1">
+                <label class="font-label-md text-outline mb-1 block text-[10px]"
+                  >QTY</label
+                >
+                <input
+                  class="bg-surface-container-high border-outline-variant text-mono-sm font-mono-sm text-on-surface w-full rounded border px-2 py-1"
+                  type="number"
+                  value="1"
+                />
+              </div>
+              <div class="flex-[2]">
+                <label class="font-label-md text-outline mb-1 block text-[10px]"
+                  >PRICE</label
+                >
+                <input
+                  class="bg-surface-container-high border-outline-variant text-mono-sm font-mono-sm text-on-surface w-full rounded border px-2 py-1"
+                  type="text"
+                  value="$1,200.00"
+                />
+              </div>
+              <div class="flex-[2] text-right">
+                <label class="font-label-md text-outline mb-1 block text-[10px]"
+                  >AMOUNT</label
+                >
+                <div class="font-mono-sm text-mono-sm text-on-surface py-1">
+                  $1,200.00
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Item row 2 (Empty/Placeholder State) -->
+          <div class="group relative space-y-3 p-4">
+            <div class="flex items-start justify-between">
+              <input
+                class="text-on-surface font-body-lg placeholder:text-outline w-full border-none bg-transparent p-0 focus:ring-0"
+                placeholder="Add description..."
+                type="text"
+              />
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="flex-1">
+                <label class="font-label-md text-outline mb-1 block text-[10px]"
+                  >QTY</label
+                >
+                <input
+                  class="bg-surface-container-high border-outline-variant text-mono-sm font-mono-sm text-on-surface w-full rounded border px-2 py-1"
+                  placeholder="0"
+                  type="number"
+                />
+              </div>
+              <div class="flex-[2]">
+                <label class="font-label-md text-outline mb-1 block text-[10px]"
+                  >PRICE</label
+                >
+                <input
+                  class="bg-surface-container-high border-outline-variant text-mono-sm font-mono-sm text-on-surface w-full rounded border px-2 py-1"
+                  placeholder="0.00"
+                  type="text"
+                />
+              </div>
+              <div class="flex-[2] text-right">
+                <label class="font-label-md text-outline mb-1 block text-[10px]"
+                  >AMOUNT</label
+                >
+                <div
+                  class="font-mono-sm text-mono-sm text-on-surface-variant py-1"
+                >
+                  $0.00
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add Item Button Container -->
+          <div class="bg-surface-container-lowest p-3">
+            <button
+              class="border-primary-container text-primary-container font-label-md text-label-md hover:bg-primary-container/10 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed py-2 transition-all active:scale-95"
+            >
+              <span class="material-symbols-outlined text-[18px]">add</span>
+              Add Item
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- Summary Preview -->
+      <section class="mt-8 space-y-3 px-2">
+        <div class="text-on-surface-variant flex justify-between">
+          <span class="font-label-md text-label-md">Subtotal</span>
+          <span class="font-mono-sm text-mono-sm">$1,200.00</span>
+        </div>
+        <div class="text-on-surface-variant flex justify-between">
+          <span class="font-label-md text-label-md">Tax (0%)</span>
+          <span class="font-mono-sm text-mono-sm">$0.00</span>
+        </div>
+      </section>
+    </main>
+    <!-- Fixed Bottom Action Bar -->
+    <footer
+      class="bg-surface border-outline-variant pb-safe fixed bottom-0 left-0 z-50 w-full border-t shadow-[0_-8px_24px_rgba(0,0,0,0.4)]"
+    >
+      <div
+        class="px-margin-mobile mx-auto flex h-24 max-w-md items-center justify-between"
+      >
+        <div class="flex flex-col">
+          <span class="font-label-md text-label-md text-on-surface-variant"
+            >Total Amount</span
+          >
+          <span class="font-headline-sm text-headline-sm text-primary-container"
+            >$1,200.00</span
+          >
+        </div>
+        <button
+          class="bg-primary-container text-on-primary-container font-label-md text-label-md flex items-center gap-2 rounded-full px-6 py-3 font-bold transition-transform active:scale-95"
+        >
+          Generate Bill
+          <span class="material-symbols-outlined text-[18px]">send</span>
+        </button>
+      </div>
+    </footer>
+    <!-- Subtle Background Ambient Effect -->
+    <div class="pointer-events-none fixed inset-0 z-[-1] overflow-hidden">
+      <div
+        class="bg-primary-container/5 absolute top-[-10%] right-[-10%] h-[50%] w-[50%] rounded-full blur-[120px]"
+      ></div>
+      <div
+        class="bg-secondary-container/5 absolute bottom-[-10%] left-[-10%] h-[50%] w-[50%] rounded-full blur-[120px]"
+      ></div>
+    </div>
+    <script>
+      // Simple micro-interaction for item adding (visual only for this prototype)
+      document
+        .querySelector('button:contains("Add Item")')
+        ?.addEventListener("click", function () {
+          // This would normally append a new item row
+          console.log("Add item clicked");
+        });
+
+      // Add contains selector support for the demo
+      window.addEventListener("DOMContentLoaded", () => {
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach((btn) => {
+          if (btn.textContent.includes("Add Item")) {
+            btn.addEventListener("click", () => {
+              alert("In a real app, this would add a new line item row.");
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

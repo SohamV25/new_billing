@@ -1,0 +1,429 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+      name="viewport"
+    />
+    <title>Stitch Billing Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              secondary: "#adc7ff",
+              "tertiary-fixed-dim": "#a7d0b3",
+              "on-tertiary-container": "#274c36",
+              "surface-container-high": "#2a2a2b",
+              surface: "#131314",
+              "tertiary-container": "#94bca0",
+              "on-secondary-fixed-variant": "#004493",
+              "surface-container-lowest": "#0e0e0f",
+              "on-primary-container": "#0d4582",
+              "surface-container": "#201f20",
+              "outline-variant": "#424750",
+              "secondary-container": "#026be0",
+              "primary-fixed-dim": "#a8c8ff",
+              background: "#131314",
+              "on-primary-fixed-variant": "#114784",
+              "inverse-on-surface": "#313031",
+              "on-secondary-container": "#f2f4ff",
+              "on-primary-fixed": "#001b3c",
+              "surface-container-highest": "#353436",
+              "on-primary": "#003061",
+              "secondary-fixed-dim": "#adc7ff",
+              "on-surface": "#e5e2e3",
+              "on-error": "#690005",
+              "tertiary-fixed": "#c3edcf",
+              "primary-container": "#8ab4f8",
+              "surface-container-low": "#1c1b1c",
+              "on-error-container": "#ffdad6",
+              "inverse-primary": "#315f9d",
+              "on-secondary-fixed": "#001a41",
+              "error-container": "#93000a",
+              tertiary: "#afd8bb",
+              "primary-fixed": "#d5e3ff",
+              "surface-tint": "#a8c8ff",
+              "surface-bright": "#39393a",
+              "secondary-fixed": "#d8e2ff",
+              "surface-variant": "#353436",
+              outline: "#8d919b",
+              error: "#ffb4ab",
+              "on-tertiary-fixed-variant": "#294e38",
+              "surface-dim": "#131314",
+              "on-secondary": "#002e68",
+              "on-surface-variant": "#c3c6d1",
+              "on-tertiary": "#113723",
+              "inverse-surface": "#e5e2e3",
+              primary: "#b5cfff",
+              "on-background": "#e5e2e3",
+              "on-tertiary-fixed": "#002110",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              unit: "4px",
+              "container-padding": "24px",
+              "margin-mobile": "16px",
+              "margin-desktop": "32px",
+              gutter: "16px",
+            },
+            fontFamily: {
+              "body-md": ["Inter"],
+              "headline-md": ["Inter"],
+              "label-md": ["Geist"],
+              "headline-sm": ["Inter"],
+              "body-lg": ["Inter"],
+              "mono-sm": ["Geist"],
+              "headline-lg": ["Inter"],
+            },
+            fontSize: {
+              "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                { lineHeight: "28px", fontWeight: "500" },
+              ],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "mono-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+      }
+      body {
+        background-color: #131314;
+        color: #e5e2e3;
+        -webkit-font-smoothing: antialiased;
+      }
+      .tonal-card {
+        background-color: #1e1f22;
+        border: 1px solid #2d2f34;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="font-body-md text-body-md pb-20">
+    <!-- TopAppBar -->
+    <header
+      class="bg-surface dark:bg-surface px-margin-mobile border-outline-variant fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="border-outline-variant bg-surface-container h-8 w-8 overflow-hidden rounded-full border"
+        >
+          <img
+            class="h-full w-full object-cover"
+            data-alt="A professional close-up headshot of a software engineer for a developer-centric financial application profile. The lighting is moody and technical with cool blue tones, reflecting a systematic and professional dark mode interface aesthetic. The background is a clean, slightly blurred office setting with subtle hardware elements."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKfpKZmyRzxsKdafhO90FVgwrSqHLYImLdjxRBPna4r5PMnDcTeee_fCkTVtuNvV7md8DmSQpUFsUS9R4G3xIi8EpVAfs_spaWuVut4qCrERRa9I5ZtZYZjISU8ht-2ZJwSUWFF7Uy-QGj8DDaEPP2dRKbQVGAT0nOQ0GytkkNErPUBE3SzQzfZTQWXM0U-W2QOa4qYc3DhwWurV1nReqPjE2uTgXOPLqw_rgQWw5EuSVW3st11MSwUw"
+          />
+        </div>
+        <h1 class="font-headline-sm text-headline-sm text-primary">
+          Dashboard
+        </h1>
+      </div>
+      <button
+        class="hover:bg-surface-variant flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200"
+      >
+        <span class="material-symbols-outlined text-on-surface"
+          >notifications</span
+        >
+      </button>
+    </header>
+    <main class="p-margin-mobile mt-16 flex flex-col gap-6">
+      <!-- KPI Card: Total Revenue -->
+      <section
+        class="tonal-card relative flex flex-col gap-4 overflow-hidden rounded-xl p-6"
+      >
+        <div class="flex flex-col">
+          <span class="font-label-md text-label-md text-on-surface-variant"
+            >Total Revenue</span
+          >
+          <span class="font-headline-lg text-headline-lg text-on-surface mt-1"
+            >$412,890.00</span
+          >
+        </div>
+        <div class="text-primary-container flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">trending_up</span>
+          <span class="font-label-md text-label-md"
+            >+12.5% from last month</span
+          >
+        </div>
+        <!-- Visual Decoration: Blue Trend Line Placeholder -->
+        <div class="mt-4 flex h-16 w-full items-end gap-1">
+          <div
+            class="bg-primary-container h-[40%] flex-1 rounded-t-sm opacity-20"
+          ></div>
+          <div
+            class="bg-primary-container h-[60%] flex-1 rounded-t-sm opacity-40"
+          ></div>
+          <div
+            class="bg-primary-container h-[45%] flex-1 rounded-t-sm opacity-30"
+          ></div>
+          <div
+            class="bg-primary-container h-[75%] flex-1 rounded-t-sm opacity-60"
+          ></div>
+          <div
+            class="bg-primary-container h-[65%] flex-1 rounded-t-sm opacity-50"
+          ></div>
+          <div
+            class="bg-primary-container h-[90%] flex-1 rounded-t-sm opacity-80"
+          ></div>
+          <div class="bg-primary-container h-[100%] flex-1 rounded-t-sm"></div>
+        </div>
+      </section>
+      <!-- Two Column Grid: Pending & Overdue -->
+      <section class="gap-gutter grid grid-cols-2">
+        <div class="tonal-card flex flex-col gap-2 rounded-xl p-4">
+          <span class="font-label-md text-label-md text-on-surface-variant"
+            >Pending Bills</span
+          >
+          <div class="flex items-baseline gap-1">
+            <span class="font-headline-md text-headline-md text-on-surface"
+              >24</span
+            >
+          </div>
+          <div class="font-mono-sm text-mono-sm text-[#8AB4F8]">$12,450.00</div>
+        </div>
+        <div
+          class="tonal-card border-l-error flex flex-col gap-2 rounded-xl border-l-4 p-4"
+        >
+          <span class="font-label-md text-label-md text-on-surface-variant"
+            >Overdue Bills</span
+          >
+          <div class="flex items-baseline gap-1">
+            <span class="font-headline-md text-headline-md text-error">12</span>
+          </div>
+          <div class="text-error font-mono-sm text-mono-sm">$4,820.00</div>
+        </div>
+      </section>
+      <!-- Recent Activity -->
+      <section class="flex flex-col gap-4">
+        <div class="flex items-center justify-between px-1">
+          <h2 class="font-headline-sm text-headline-sm text-on-surface">
+            Recent Activity
+          </h2>
+          <button class="font-label-md text-label-md text-primary-container">
+            View All
+          </button>
+        </div>
+        <div class="flex flex-col gap-2">
+          <!-- Activity Item 1 -->
+          <div
+            class="tonal-card flex items-center justify-between rounded-xl p-4"
+          >
+            <div class="flex flex-col gap-1">
+              <span
+                class="font-body-md text-body-md text-on-surface font-semibold"
+                >Acme Corp</span
+              >
+              <span
+                class="font-mono-sm text-mono-sm text-on-surface-variant tracking-wider uppercase"
+                >ID: INV-8901</span
+              >
+            </div>
+            <div class="flex flex-col items-end gap-1">
+              <span class="font-mono-sm text-mono-sm text-on-surface font-bold"
+                >$2,400.00</span
+              >
+              <span
+                class="rounded-full bg-[#1e2a1e] px-2 py-0.5 text-[10px] font-bold tracking-tight text-[#c4eed0]"
+                >PAID</span
+              >
+            </div>
+          </div>
+          <!-- Activity Item 2 -->
+          <div
+            class="tonal-card flex items-center justify-between rounded-xl p-4"
+          >
+            <div class="flex flex-col gap-1">
+              <span
+                class="font-body-md text-body-md text-on-surface font-semibold"
+                >Global Dynamics</span
+              >
+              <span
+                class="font-mono-sm text-mono-sm text-on-surface-variant tracking-wider uppercase"
+                >ID: INV-8902</span
+              >
+            </div>
+            <div class="flex flex-col items-end gap-1">
+              <span class="font-mono-sm text-mono-sm text-on-surface font-bold"
+                >$1,150.00</span
+              >
+              <span
+                class="rounded-full bg-[#2a2113] px-2 py-0.5 text-[10px] font-bold tracking-tight text-[#f2e2c4]"
+                >PENDING</span
+              >
+            </div>
+          </div>
+          <!-- Activity Item 3 -->
+          <div
+            class="tonal-card flex items-center justify-between rounded-xl p-4"
+          >
+            <div class="flex flex-col gap-1">
+              <span
+                class="font-body-md text-body-md text-on-surface font-semibold"
+                >Umbrella Inc</span
+              >
+              <span
+                class="font-mono-sm text-mono-sm text-on-surface-variant tracking-wider uppercase"
+                >ID: INV-8903</span
+              >
+            </div>
+            <div class="flex flex-col items-end gap-1">
+              <span class="font-mono-sm text-mono-sm text-on-surface font-bold"
+                >$3,900.00</span
+              >
+              <span
+                class="rounded-full bg-[#2a1313] px-2 py-0.5 text-[10px] font-bold tracking-tight text-[#ffdad6] uppercase"
+                >Overdue</span
+              >
+            </div>
+          </div>
+          <!-- Activity Item 4 -->
+          <div
+            class="tonal-card flex items-center justify-between rounded-xl p-4"
+          >
+            <div class="flex flex-col gap-1">
+              <span
+                class="font-body-md text-body-md text-on-surface font-semibold"
+                >Stark Industries</span
+              >
+              <span
+                class="font-mono-sm text-mono-sm text-on-surface-variant tracking-wider uppercase"
+                >ID: INV-8904</span
+              >
+            </div>
+            <div class="flex flex-col items-end gap-1">
+              <span class="font-mono-sm text-mono-sm text-on-surface font-bold"
+                >$750.00</span
+              >
+              <span
+                class="rounded-full bg-[#1e2a1e] px-2 py-0.5 text-[10px] font-bold tracking-tight text-[#c4eed0]"
+                >PAID</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- BottomNavBar -->
+    <nav
+      class="pb-safe bg-surface border-outline-variant fixed bottom-0 left-0 z-50 flex h-16 w-full items-center justify-around border-t px-2"
+    >
+      <!-- Dashboard (Active) -->
+      <a
+        class="text-primary-container dark:text-primary-container flex flex-col items-center justify-center font-bold transition-transform duration-100 active:scale-95"
+        href="#"
+      >
+        <span
+          class="material-symbols-outlined"
+          style="font-variation-settings: &quot;FILL&quot; 1"
+          >dashboard</span
+        >
+        <span class="font-label-md text-label-md">Dashboard</span>
+      </a>
+      <!-- Invoices -->
+      <a
+        class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high flex flex-col items-center justify-center transition-transform duration-100 active:scale-95"
+        href="#"
+      >
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="font-label-md text-label-md">Invoices</span>
+      </a>
+      <!-- Customers -->
+      <a
+        class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high flex flex-col items-center justify-center transition-transform duration-100 active:scale-95"
+        href="#"
+      >
+        <span class="material-symbols-outlined">group</span>
+        <span class="font-label-md text-label-md">Customers</span>
+      </a>
+      <!-- Settings -->
+      <a
+        class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high flex flex-col items-center justify-center transition-transform duration-100 active:scale-95"
+        href="#"
+      >
+        <span class="material-symbols-outlined">settings</span>
+        <span class="font-label-md text-label-md">Settings</span>
+      </a>
+    </nav>
+    <!-- Contextual FAB for Dashboard -->
+    <button
+      class="bg-secondary-container text-on-secondary-container fixed right-6 bottom-24 z-40 flex h-14 w-14 items-center justify-center rounded-xl shadow-xl transition-transform duration-100 active:scale-90"
+    >
+      <span class="material-symbols-outlined text-3xl">add</span>
+    </button>
+    <script>
+      // Micro-interactions
+      document.querySelectorAll(".tonal-card").forEach((card) => {
+        card.addEventListener("touchstart", () => {
+          card.classList.add("brightness-125");
+        });
+        card.addEventListener("touchend", () => {
+          card.classList.remove("brightness-125");
+        });
+      });
+    </script>
+  </body>
+</html>
