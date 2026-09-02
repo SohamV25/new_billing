@@ -1,55 +1,69 @@
 @import "tailwindcss";
 
 /*
- * Design tokens sourced from design_references/technical_precision/DESIGN.md
- * (Stitch Billing — "Technical Precision", dark mode).
- *
- * Tonal layers:
- *   Level 0 (base)       #131314
- *   Level 1 (surface)    #1E1F22  — cards, navigation, 1px #2D2F34 border
- *   Level 2 (elevated)   #212327  — modals, tooltips, menus
+ * Design tokens — "Technical Precision", dark only.
+ * Source of truth: design_references/technical_precision/DESIGN.md
+ * Every colour in the app must come from here. No hex literals in components.
  */
 
 :root {
   color-scheme: dark;
 
-  /* ---- Material 3 dark palette ---- */
+  /* ---- Tonal surfaces (hierarchy comes from tone, not shadow) ---- */
   --background: #131314;
   --surface: #131314;
-  --surface-dim: #131314;
+  --surface-dim: #0e0e0f;
   --surface-bright: #39393a;
   --surface-container-lowest: #0e0e0f;
   --surface-container-low: #1c1b1c;
-  --surface-container: #201f20;
-  --surface-container-high: #2a2a2b;
-  --surface-container-highest: #353436;
+  --surface-container: #1e1f22;
+  --surface-container-high: #212327;
+  --surface-container-highest: #2a2a2b;
   --surface-variant: #353436;
   --on-surface: #e5e2e3;
   --on-surface-variant: #c3c6d1;
-  --outline: #8d919b;
-  --outline-variant: #424750;
 
-  --primary: #b5cfff;
+  /* ---- Boundaries ---- */
+  --outline: #8d919b;
+  --outline-variant: #2d2f34;
+
+  /* ---- Brand ----
+     --primary is the readable accent (text, icons, active states, highlights).
+     --brand-solid is the one saturated fill, reserved for primary action buttons. */
+  --primary: #8ab4f8;
   --on-primary: #003061;
-  --primary-container: #8ab4f8;
-  --on-primary-container: #0d4582;
+  --primary-container: #adc7ff;
+  --on-primary-container: #002e68;
+  --brand-solid: #1a73e8;
+  --on-brand-solid: #ffffff;
+
   --secondary: #adc7ff;
   --on-secondary: #002e68;
-  --secondary-container: #026be0;
-  --on-secondary-container: #f2f4ff;
-  --tertiary: #afd8bb;
+  --secondary-container: #1f2a3d;
+  --on-secondary-container: #d8e2ff;
+  --tertiary: #a7d0b3;
 
+  /* ---- Status ---- */
   --error: #ffb4ab;
-  --error-container: #93000a;
+  --error-container: #4a1512;
   --on-error-container: #ffdad6;
 
-  /* ---- Tonal elevation (Level 1 / Level 2) ---- */
-  --surface-card: #1e1f22;
-  --surface-elevated: #212327;
-  --border: #2d2f34;
+  --success: #86d9a4;
+  --success-container: #123422;
 
-  /* ---- Brand accents ---- */
-  --primary-button: #1a73e8;
+  --warning: #f0b357;
+  --warning-container: #3d2c10;
+
+  /* Reversed / derived documents: refunded payments, converted quotations. */
+  --violet: #cbb2f7;
+  --violet-container: #2b2340;
+
+  --tertiary-container: #23382b;
+
+  /* ---- Semantic aliases ---- */
+  --surface-card: var(--surface-container);
+  --surface-elevated: var(--surface-container-high);
+  --border: var(--outline-variant);
 
   /* ---- shadcn/ui semantic mapping (dark only) ---- */
   --foreground: var(--on-surface);
@@ -57,25 +71,24 @@
   --card-foreground: var(--on-surface);
   --popover: var(--surface-elevated);
   --popover-foreground: var(--on-surface);
-  --primary-foreground: #ffffff;
-  --secondary: var(--secondary-container);
+  --primary-foreground: var(--on-primary);
   --secondary-foreground: var(--on-secondary-container);
-  --muted: var(--surface-container);
+  --muted: var(--surface-container-high);
   --muted-foreground: var(--on-surface-variant);
-  --accent: var(--primary-container);
-  --accent-foreground: var(--on-primary-container);
-  --destructive: var(--error-container);
+  --accent: var(--surface-container-highest);
+  --accent-foreground: var(--on-surface);
+  --destructive: var(--error);
   --destructive-foreground: var(--on-error-container);
   --input: var(--outline-variant);
-  --ring: var(--primary-container);
+  --ring: var(--primary);
   --radius: 0.75rem;
-  --sidebar: var(--surface);
+  --sidebar: var(--surface-container);
   --sidebar-foreground: var(--on-surface);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--on-primary);
   --sidebar-accent: var(--surface-container-high);
   --sidebar-accent-foreground: var(--on-surface);
-  --sidebar-border: var(--border);
+  --sidebar-border: var(--outline-variant);
   --sidebar-ring: var(--ring);
 }
 
@@ -86,7 +99,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary-button);
+  --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -123,9 +136,18 @@
   --color-error: var(--error);
   --color-error-container: var(--error-container);
   --color-on-error-container: var(--on-error-container);
+  --color-success: var(--success);
+  --color-success-container: var(--success-container);
+  --color-warning: var(--warning);
+  --color-warning-container: var(--warning-container);
+  --color-violet: var(--violet);
+  --color-violet-container: var(--violet-container);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-on-secondary: var(--on-secondary);
   --color-surface-card: var(--surface-card);
   --color-surface-elevated: var(--surface-elevated);
-  --color-primary-button: var(--primary-button);
+  --color-brand-solid: var(--brand-solid);
+  --color-on-brand-solid: var(--on-brand-solid);
 
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -139,6 +161,28 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-geist: var(--font-geist-sans), ui-monospace, monospace;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 600;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 600;
+  --text-headline-sm: 20px;
+  --text-headline-sm--line-height: 28px;
+  --text-headline-sm--font-weight: 500;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-label-md: 12px;
+  --text-label-md--line-height: 16px;
+  --text-label-md--letter-spacing: 0.02em;
+  --text-label-md--font-weight: 500;
+  --text-mono-sm: 12px;
+  --text-mono-sm--line-height: 18px;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -155,8 +199,291 @@
   }
 }
 
+html,
 body {
   background-color: var(--background);
-  color: var(--foreground);
+  color: var(--on-surface);
   -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   Invoice Print — CSS matching old billing print.html exactly
+   ============================================================ */
+
+/* Reset and A4 Setup */
+.outer-box {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 8mm;
+  font-family: "Times New Roman", Times, serif;
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: auto;
+}
+
+.outer-box .bill-frame {
+  border: 1px solid black;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: black;
+}
+
+/* 1. Invoice Header */
+.outer-box .flex-invoice {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -1px;
+}
+.outer-box .invoice {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 4px 30px;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 2. Company Header */
+.outer-box .flex-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid black;
+  padding: 8px 0;
+}
+.outer-box .main-heading {
+  text-align: center;
+}
+.outer-box .main-heading h1 {
+  margin: 0;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+}
+.outer-box .main-heading p {
+  margin: 1px 0;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+/* 3. Credentials Grid */
+.outer-box .credentials-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  border-bottom: 1px solid black;
+}
+.outer-box .buyer-details {
+  border-right: 1px solid black;
+  padding: 8px 10px;
+  font-size: 13px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+.outer-box .bill-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.outer-box .bill-details .box {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  padding: 6px 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+.outer-box .bill-details .box:nth-child(even) {
+  border-right: 0;
+}
+.outer-box .bill-details .box:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+/* 4. Table Area */
+.outer-box .table-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.outer-box table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  height: 100%;
+}
+.outer-box th,
+.outer-box td {
+  border: 1px solid black;
+  text-align: center;
+  font-size: 11px;
+  padding: 4px 3px;
+  word-wrap: break-word;
+  line-height: 1.2;
+}
+.outer-box table tr th:first-child,
+.outer-box table tr td:first-child {
+  border-left: none;
+}
+.outer-box table tr th:last-child,
+.outer-box table tr td:last-child {
+  border-right: none;
+}
+.outer-box thead th {
+  background-color: #f5f5f5;
+  height: 28px;
+  font-size: 12px;
+}
+.outer-box .product-row {
+  height: 48px;
+}
+.outer-box .total-row th,
+.outer-box .total-row td {
+  height: 28px;
+  font-weight: bold;
+  font-size: 12px;
+  border-bottom: 1px solid black;
+}
+
+/* 5. End Bill Section */
+.outer-box .end-bill {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  grid-template-areas:
+    "amt-word amt"
+    "bank amt"
+    "assure assure";
+  border-top: 1px solid black;
+  margin-top: -1px;
+}
+.outer-box .amt-word {
+  grid-area: amt-word;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 10px;
+  font-size: 12px;
+}
+.outer-box .bank-details {
+  grid-area: bank;
+  border-right: 1px solid black;
+  padding: 10px;
+  font-size: 12px;
+}
+.outer-box .assurance {
+  grid-area: assure;
+  border-top: 1px solid black;
+  padding: 8px 10px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 65px;
+}
+.outer-box .amount-summary {
+  grid-area: amt;
+  display: flex;
+  flex-direction: column;
+}
+.outer-box .summary-item {
+  border-bottom: 1px solid black;
+  font-size: 12px;
+  display: flex;
+  flex: 1 1 0;
+}
+.outer-box .summary-item span:first-child {
+  flex: 1;
+  padding: 0 12px;
+  border-right: 1px solid black;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+.outer-box .summary-item span:last-child {
+  width: 130px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.outer-box .summary-item:last-child {
+  border-bottom: 0;
+  font-weight: bold;
+  background-color: #eeeeee;
+}
+
+/* 6. Footer */
+.outer-box .footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid black;
+  padding: 8px 10px;
+  font-size: 12px;
+  min-height: 50px;
+}
+.outer-box .from {
+  text-align: right;
+}
+
+/* ============================================================
+   Print overrides
+   ============================================================ */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .outer-box {
+    margin: 0;
+    border: none;
+    width: 210mm;
+    height: 297mm;
+    box-shadow: none;
+    padding: 8mm;
+    page-break-inside: avoid;
+    page-break-after: avoid;
+  }
+}
+
+/* ---- Report print document ---- */
+@media print {
+  .report-doc thead {
+    display: table-header-group;
+  }
+
+  .report-doc tr {
+    break-inside: avoid;
+  }
+
+  .report-doc .avoid-break {
+    break-inside: avoid;
+  }
 }

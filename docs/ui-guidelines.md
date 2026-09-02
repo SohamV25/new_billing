@@ -41,7 +41,13 @@ Create reusable components for:
 
 ## Styling
 
-- Tailwind CSS only.
+- Tailwind CSS only. No hex literals in components, no inline styles except for
+  runtime-computed values (chart heights, data-driven bar widths).
+- All colour comes from the tokens in `src/app/globals.css` ("Technical Precision", dark only):
+  `background` / `surface-container` / `surface-container-high` for tone, `outline-variant` for
+  every boundary, `primary` (`#8ab4f8`) for accents and `brand-solid` (`#1a73e8`) for the one
+  solid action fill. Status uses `success` / `warning` / `error` / `violet`.
+- Cards use the `TonalCard` primitive.
 - Use shadcn/ui components.
 - Maintain consistent spacing.
 - Maintain consistent border radius.

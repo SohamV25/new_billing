@@ -25,6 +25,7 @@ enum QuotationStatus {
   DRAFT
   SENT
   ACCEPTED
+  REJECTED
   EXPIRED
   CONVERTED
 }
@@ -54,16 +55,41 @@ enum AuditAction {
   LOGIN
   LOGOUT
   INVOICE_CREATED
+  INVOICE_UPDATED
+  INVOICE_DELETED
+  INVOICE_FINALIZED
+  INVOICE_PAYMENT_RECEIVED
   INVOICE_CANCELLED
+  PAYMENT_UPDATED
+  PAYMENT_DELETED
+  PAYMENT_REFUNDED
   QUOTATION_CREATED
+  QUOTATION_UPDATED
+  QUOTATION_DELETED
   QUOTATION_CONVERTED
   INVENTORY_ADJUSTMENT
   ROLE_CHANGED
   SETTINGS_CHANGED
   CUSTOMER_CREATED
   CUSTOMER_UPDATED
+  CUSTOMER_DELETED
+  CATEGORY_CREATED
+  CATEGORY_UPDATED
+  CATEGORY_DELETED
   PRODUCT_CREATED
   PRODUCT_UPDATED
+  PRODUCT_DELETED
+  PROFILE_UPDATED
+  PASSWORD_CHANGED
+  PREFERENCES_UPDATED
+  USER_CREATED
+  USER_ROLE_UPDATED
+  ROLE_CREATED
+  ROLE_UPDATED
+  ROLE_DELETED
+  ROLE_PERMISSIONS_UPDATED
+  BACKUP_EXPORTED
+  BACKUP_IMPORTED
 }
 
 // ---------------------------------------------------------------------------
@@ -76,11 +102,12 @@ model User {
   email         String    @unique
   emailVerified Boolean   @default(false)
   image         String?
-  roleId        String?
+  roleId        String?   @db.Uuid
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   role      Role?          @relation("UserRole", fields: [roleId], references: [id])
+  preferences UserPreferences?
   sessions  Session[]
   accounts  Account[]
   invoices  Invoice[]
@@ -205,8 +232,9 @@ model Category {
 
 model Product {
   id          String   @id @default(uuid()) @db.Uuid
-  categoryId  String   @db.Uuid
+  categoryId  String?  @db.Uuid
   name        String
+  barcode     String?
   hsn         String?
   sku         String?
   unit        String?
@@ -216,15 +244,16 @@ model Product {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  category          Category             @relation(fields: [categoryId], references: [id])
+  category          Category?            @relation(fields: [categoryId], references: [id])
   inventory         Inventory?
   stockMovements    StockMovement[]
   quotationItems    QuotationItem[]
   invoiceItems      InvoiceItem[]
 
-  @@unique([categoryId, name])
+  @@unique([name])
   @@index([name])
   @@index([sku])
+  @@index([barcode])
 }
 
 model Inventory {
@@ -312,9 +341,10 @@ model Invoice {
   invoiceNo    String        @unique
   customerId   String        @db.Uuid
   userId       String        @db.Uuid
-  status       InvoiceStatus @default(PENDING)
+  status       InvoiceStatus @default(DRAFT)
 
   invoiceDate  DateTime @default(now())
+  dueDate      DateTime?
   orderNo      String?
   orderDate    DateTime?
   dcNo         String?
@@ -330,6 +360,7 @@ model Invoice {
   amountInWords String?
 
   notes       String?
+  terms       String?
   cancelledAt DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -353,6 +384,7 @@ model InvoiceItem {
   hsn        String?
   quantity   Decimal @db.Decimal(12, 3)
   unitPrice  Decimal @db.Decimal(12, 2)
+  discount   Decimal @default(0) @db.Decimal(12, 2)
   cgstRate   Decimal @default(0) @db.Decimal(5, 2)
   cgstAmount Decimal @default(0) @db.Decimal(12, 2)
   sgstRate   Decimal @default(0) @db.Decimal(5, 2)
@@ -413,9 +445,29 @@ model CompanySettings {
   quotationPrefix  String  @default("QT")
   nextQuotationNo  Int     @default(1)
 
+  currency       String   @default("INR")
+  defaultGstRate Decimal? @db.Decimal(5, 2)
+  defaultTerms   String?
+
   updatedById      String? @db.Uuid
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// User Preferences
+// ---------------------------------------------------------------------------
+
+model UserPreferences {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @unique @db.Uuid
+  theme      String   @default("DARK")
+  timezone   String   @default("Asia/Kolkata")
+  dateFormat String   @default("DD/MM/YYYY")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // ---------------------------------------------------------------------------

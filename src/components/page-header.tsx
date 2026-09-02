@@ -6,9 +6,9 @@ type PageHeaderProps = {
 
 export function PageHeader({ title, description, actions }: PageHeaderProps) {
   return (
-    <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+    <div className="mb-5 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-4">
       <div className="space-y-1">
-        <h1 className="text-headline-md text-on-surface font-semibold tracking-tight">
+        <h1 className="text-headline-sm sm:text-headline-md text-on-surface font-semibold tracking-tight">
           {title}
         </h1>
         {description ? (
@@ -16,7 +16,7 @@ export function PageHeader({ title, description, actions }: PageHeaderProps) {
         ) : null}
       </div>
       {actions ? (
-        <div className="flex items-center gap-2">{actions}</div>
+        <div className="flex flex-wrap items-center gap-2">{actions}</div>
       ) : null}
     </div>
   );

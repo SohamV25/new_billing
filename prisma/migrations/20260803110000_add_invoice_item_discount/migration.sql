@@ -1,0 +1,1 @@
+ALTER TABLE "InvoiceItem" ADD COLUMN "discount" Decimal(12,2) DEFAULT 0;

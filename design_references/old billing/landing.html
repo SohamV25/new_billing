@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tax Invoice - Entry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+  <style>
+    /* --- 1. Soft Dark Theme Variables --- */
+    :root {
+      --bg-body: #1e293b;       /* Slate 800 - Soft Dark Background */
+      --bg-card: #334155;       /* Slate 700 - Lighter Card Surface */
+      --input-bg: #1e293b;      /* Dark Input Background */
+      --input-border: #475569;  /* Slate 600 */
+      --text-main: #f1f5f9;     /* Slate 100 */
+      --accent: #60a5fa;        /* Soft Blue Accent */
+    }
+
+    /* --- 2. Styling JS-Generated Inputs --- */
+    /* Your JS creates inputs with class="form-control". We style them here. */
+    .form-control {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text-main);
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+    }
+
+    /* --- 3. Prevent Table Crunching --- */
+    /* We enforce min-width so columns stay readable on mobile scrolling */
+    th, td { white-space: nowrap; }
+    
+    .desc { min-width: 180px; }  /* Product name needs space */
+    .hsn { min-width: 80px; }
+    .qty, .rate { min-width: 70px; }
+    .cgst, .sgst, .igst { min-width: 60px; }
+    .cgstAmt, .sgstAmt, .igstAmt { min-width: 85px; }
+
+    /* Custom Scrollbar for Table */
+    .custom-scroll::-webkit-scrollbar { height: 8px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #1e293b; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #64748b; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-[#1e293b] text-slate-200 min-h-screen p-2 md:p-6 font-sans">
+
+  <div class="max-w-[1400px] mx-auto bg-[#334155] rounded-xl shadow-2xl border border-slate-600 overflow-hidden">
+    
+    <div class="bg-[#0f172a] p-5 border-b border-slate-600 flex flex-col md:flex-row justify-between items-center gap-4">
+      <h2 class="text-2xl font-bold text-blue-400 tracking-wide flex items-center gap-2">
+        <i class="bi bi-file-earmark-text"></i> TAX INVOICE
+      </h2>
+      <button id="printBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition transform active:scale-95 flex items-center gap-2 text-sm">
+        <i class="bi bi-printer-fill"></i> GENERATE PRINT
+      </button>
+    </div>
+
+    <div class="p-4 md:p-8 space-y-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+        <div class="md:col-span-4">
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">To (Buyer Name)</label>
+          <input type="text" id="to" placeholder="Type to search..." class="form-control">
+        </div>
+        <div class="md:col-span-5">
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Address & City</label>
+          <input type="text" id="toAddress" placeholder="Auto-filled..." class="form-control">
+        </div>
+        <div class="md:col-span-3">
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">GST No.</label>
+          <input type="text" id="gstNo" placeholder="Auto-filled..." class="form-control">
+        </div>
+      </div>
+
+      <div class="bg-[#1e293b] p-4 rounded-lg border border-slate-600">
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Bill No.</label>
+            <input type="text" id="billNo" class="form-control !py-1 !text-sm">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Bill Date</label>
+            <input type="text" id="billDate" placeholder="DD/MM/YYYY" class="form-control !py-1 !text-sm">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Order No.</label>
+            <input type="text" id="orderNo" class="form-control !py-1 !text-sm">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Order Date</label>
+            <input type="text" id="orderDate" placeholder="DD/MM/YYYY" class="form-control !py-1 !text-sm">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">D.C. No.</label>
+            <input type="text" id="dcNo" class="form-control !py-1 !text-sm">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">D.C. Date</label>
+            <input type="text" id="dcDate" placeholder="DD/MM/YYYY" class="form-control !py-1 !text-sm">
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-scroll overflow-x-auto border border-slate-600 rounded-lg shadow-inner bg-[#1e293b]">
+        <table class="w-full text-sm text-left border-collapse" id="productTable">
+          <thead class="bg-[#0f172a] text-slate-300 text-xs uppercase font-semibold">
+            <tr>
+              <th rowspan="2" class="p-3 border-b border-slate-600 text-center">Description</th>
+              <th rowspan="2" class="p-3 border-b border-slate-600 text-center">HSN</th>
+              <th rowspan="2" class="p-3 border-b border-slate-600 text-center">Qty</th>
+              <th rowspan="2" class="p-3 border-b border-slate-600 text-center">Rate</th>
+              <th colspan="2" class="p-2 border-b border-slate-600 text-center bg-[#1e293b]">CGST</th>
+              <th colspan="2" class="p-2 border-b border-slate-600 text-center bg-[#1e293b]">SGST</th>
+              <th colspan="2" class="p-2 border-b border-slate-600 text-center bg-[#1e293b]">IGST</th>
+              <th rowspan="2" class="p-3 border-b border-slate-600 text-center w-12">
+                <i class="bi bi-plus-square-fill text-2xl text-blue-500 hover:text-blue-400 cursor-pointer transition" id="addRow" title="Add Row"></i>
+              </th>
+            </tr>
+            <tr class="bg-[#1e293b]">
+              <th class="p-2 border-b border-slate-600 text-center text-[10px]">%</th>
+              <th class="p-2 border-b border-slate-600 text-center text-[10px]">Amt</th>
+              <th class="p-2 border-b border-slate-600 text-center text-[10px]">%</th>
+              <th class="p-2 border-b border-slate-600 text-center text-[10px]">Amt</th>
+              <th class="p-2 border-b border-slate-600 text-center text-[10px]">%</th>
+              <th class="p-2 border-b border-slate-600 text-center text-[10px]">Amt</th>
+            </tr>
+          </thead>
+          <tbody id="productBody" class="divide-y divide-slate-700 bg-[#334155]">
+            </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        
+        <div class="space-y-6">
+          <div class="bg-[#1e293b] p-4 rounded-lg border border-slate-600 flex flex-col md:flex-row gap-3 items-end">
+            <div class="flex-grow w-full">
+              <label class="text-xs text-slate-400 mb-1 block">Extra Charges Reason</label>
+              <input type="text" id="extraReason" placeholder="e.g. Courier" class="form-control">
+            </div>
+            <div class="w-full md:w-32">
+              <label class="text-xs text-slate-400 mb-1 block">Amount</label>
+              <input type="number" id="extraCharges" value="0" class="form-control text-right">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold text-blue-400 mb-2 uppercase">Amount in Words</label>
+            <textarea id="amountInWords" readonly rows="3" 
+              class="w-full bg-[#1e293b] border border-slate-600 rounded-lg p-3 text-slate-300 font-medium resize-none focus:outline-none"></textarea>
+          </div>
+        </div>
+
+        <div class="bg-[#1e293b] p-6 rounded-xl border border-slate-600 shadow-lg">
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between items-center">
+              <span class="text-slate-400">Total Before Tax</span>
+              <input type="text" id="totalBeforeTax" readonly class="bg-transparent text-right font-bold text-slate-200 outline-none w-32">
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-slate-500">Total CGST</span>
+              <input type="text" id="totalCGST" readonly class="bg-transparent text-right text-slate-400 outline-none w-32">
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-slate-500">Total SGST</span>
+              <input type="text" id="totalSGST" readonly class="bg-transparent text-right text-slate-400 outline-none w-32">
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-slate-500">Total IGST</span>
+              <input type="text" id="totalIGST" readonly class="bg-transparent text-right text-slate-400 outline-none w-32">
+            </div>
+            
+            <div class="h-px bg-slate-600 my-2"></div>
+            
+            <div class="flex justify-between items-center pt-1">
+              <span class="text-lg font-bold text-blue-400">Total After Tax</span>
+              <input type="text" id="totalAfterTax" readonly class="bg-transparent text-right text-xl font-extrabold text-blue-400 outline-none w-40">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="landing.js"></script>
+</body>
+</html>

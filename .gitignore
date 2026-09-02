@@ -46,3 +46,7 @@ next-env.d.ts
 
 # seed / scratch
 *.log
+
+# Previous versions of this app, kept locally for reference only.
+# "new billing" is its own git repo and carries node_modules.
+design_references/new billing/

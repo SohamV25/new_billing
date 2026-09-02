@@ -29,6 +29,7 @@ Frontend and backend are a single Next.js application. The API is served through
 ├── src/
 │   ├── app/              # Next.js routes (App Router)
 │   │   ├── (app)/        # Authenticated app shell + module pages
+│   │   ├── (auth)/       # Public pages (e.g. /login)
 │   │   └── api/auth/     # Better Auth route handler
 │   ├── components/
 │   │   ├── ui/           # shadcn/ui components
@@ -71,9 +72,14 @@ cp .env.example .env
 createdb billing
 npm run db:migrate
 
-# 4. Start the development server
+# 4. Seed roles, permissions, and the admin user (optional but recommended)
+npm run db:seed
+
+# 5. Start the development server
 npm run dev
 ```
+
+The seed creates the `ADMIN` and `STAFF` roles, the permissions, and an admin user. The admin credentials default to `admin@stitchbilling.local` / `Admin@12345`; override them with `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD`.
 
 Open http://localhost:3000.
 
@@ -92,6 +98,7 @@ Open http://localhost:3000.
 | `npm run db:migrate`   | Create/apply a Prisma migration (dev) |
 | `npm run db:deploy`    | Apply migrations (production)         |
 | `npm run db:push`      | Push schema without a migration       |
+| `npm run db:seed`      | Seed roles, permissions, admin user   |
 | `npm run db:studio`    | Open Prisma Studio                    |
 
 ## Development Workflow
@@ -100,6 +107,14 @@ Planning → Sprint → Review → Testing → Documentation → Commit
 
 ## Current Status
 
-Sprint 0 — project initialization and architecture setup. Complete.
+Sprint 4 — Billing, part 1: quotations (quotation CRUD, GST-aware line items, status lifecycle, duplicate, convert-to-invoice, printable detail page). Quotations are complete; invoices remain.
+
+Sprint 3 — customers (customer CRUD, search/filters/pagination, detail page with history placeholder). Complete.
+
+Sprint 2 — products, categories & inventory (category CRUD, product CRUD, stock movements, low-stock tracking). Complete.
+
+The dedicated Inventory Management module (`/inventory` — current stock levels + movement-history audit trail, with `GET /api/inventory` and `GET /api/inventory/movements`) is also complete.
+
+Sprint 1 — authentication (login, logout, protected routes, session handling, current user, RBAC). Complete.
 
 See `docs/project-status.md` for details and `IMPLEMENTATION_PLAN.md` for the roadmap.
